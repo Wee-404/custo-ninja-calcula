@@ -2,7 +2,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
-import { Calculator, TrendingUp, Users, Beer, PiggyBank, CircleArrowDown } from 'lucide-react';
+import AdBanner from '../components/AdBanner';
+import CoursePromo from '../components/CoursePromo';
+import { Calculator, TrendingUp, Users, Beer, PiggyBank, CircleArrowDown, Car, DollarSign, GraduationCap } from 'lucide-react';
 
 const Index = () => {
   const calculators = [
@@ -41,6 +43,34 @@ const Index = () => {
       path: '/calculadora-basica',
       color: 'from-gray-500 to-gray-600',
     },
+    {
+      title: 'Planejamento de Aposentadoria',
+      description: 'Calcule quanto economizar para ter a aposentadoria dos seus sonhos.',
+      icon: <PiggyBank className="h-8 w-8" />,
+      path: '/planejamento-aposentadoria',
+      color: 'from-indigo-500 to-indigo-600',
+    },
+    {
+      title: 'Consulta FIPE',
+      description: 'Consulte o valor atualizado do seu veículo na tabela FIPE.',
+      icon: <Car className="h-8 w-8" />,
+      path: '/consulta-fipe',
+      color: 'from-red-500 to-red-600',
+    },
+    {
+      title: 'Precificação para Autônomos',
+      description: 'Calcule o preço ideal para seus produtos ou serviços.',
+      icon: <DollarSign className="h-8 w-8" />,
+      path: '/precificacao-servicos',
+      color: 'from-emerald-500 to-emerald-600',
+    },
+    {
+      title: 'Educação Financeira',
+      description: 'Organize suas finanças pessoais e aprenda a dividir sua renda.',
+      icon: <GraduationCap className="h-8 w-8" />,
+      path: '/educacao-financeira',
+      color: 'from-cyan-500 to-cyan-600',
+    },
   ];
 
   return (
@@ -73,6 +103,8 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      <AdBanner size="large" className="mx-4 my-8" />
 
       {/* Calculators Grid */}
       <section className="py-20 bg-gray-50">
@@ -110,6 +142,10 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      <div className="container mx-auto px-4">
+        <CoursePromo />
+      </div>
 
       {/* Features Section */}
       <section className="py-20">
@@ -158,6 +194,8 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      <AdBanner size="medium" className="mx-4 mb-8" />
 
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
