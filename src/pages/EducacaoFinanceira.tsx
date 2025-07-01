@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import AdBanner from '../components/AdBanner';
@@ -6,7 +5,8 @@ import CoursePromo from '../components/CoursePromo';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { GraduationCap, PieChart, TrendingUp, AlertTriangle, Target, Lightbulb } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { GraduationCap, PieChart, TrendingUp, AlertTriangle, Target, Lightbulb, PiggyBank, Calculator } from 'lucide-react';
 
 const EducacaoFinanceira = () => {
   const [salario, setSalario] = useState('');
@@ -255,6 +255,39 @@ const EducacaoFinanceira = () => {
                             </div>
                           </div>
                         ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>🔗 Ferramentas Relacionadas</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Link to="/planejamento-aposentadoria">
+                          <Button variant="outline" className="w-full h-16 flex flex-col items-center justify-center">
+                            <PiggyBank className="h-6 w-6 mb-1" />
+                            <span className="text-sm">Planeje sua Aposentadoria</span>
+                          </Button>
+                        </Link>
+                        <Link to="/investimentos">
+                          <Button variant="outline" className="w-full h-16 flex flex-col items-center justify-center">
+                            <TrendingUp className="h-6 w-6 mb-1" />
+                            <span className="text-sm">Simular Investimentos</span>
+                          </Button>
+                        </Link>
+                        <Link to="/custo-beneficio">
+                          <Button variant="outline" className="w-full h-16 flex flex-col items-center justify-center">
+                            <Calculator className="h-6 w-6 mb-1" />
+                            <span className="text-sm">Custo-Benefício</span>
+                          </Button>
+                        </Link>
+                        <Link to="/empreendedorismo-local">
+                          <Button variant="outline" className="w-full h-16 flex flex-col items-center justify-center">
+                            <Target className="h-6 w-6 mb-1" />
+                            <span className="text-sm">Empreender</span>
+                          </Button>
+                        </Link>
                       </div>
                     </CardContent>
                   </Card>

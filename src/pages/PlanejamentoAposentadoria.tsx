@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import AdBanner from '../components/AdBanner';
@@ -6,56 +5,53 @@ import CoursePromo from '../components/CoursePromo';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { PiggyBank, TrendingUp, Calendar, DollarSign } from 'lucide-react';
+import { PiggyBank, TrendingUp, Target, Clock } from 'lucide-react';
 
 const PlanejamentoAposentadoria = () => {
-  const [valores, setValores] = useState({
-    idadeAtual: '',
-    idadeAposentadoria: '',
-    rendaDesejada: '',
-    valorAtual: '',
-    aportesMensais: '',
-    taxaJuros: '',
-    inflacao: ''
-  });
-
+  const [idadeAtual, setIdadeAtual] = useState('');
+  const [idadeAposentadoria, setIdadeAposentadoria] = useState('');
+  const [rendaMensalAtual, setRendaMensalAtual] = useState('');
+  const [despesasMensais, setDespesasMensais] = useState('');
+  const [taxaRetornoInvestimento, setTaxaRetornoInvestimento] = useState('');
+  const [inflacaoAnual, setInflacaoAnual] = useState('');
   const [resultado, setResultado] = useState<any>(null);
 
   const calcularAposentadoria = () => {
-    const idadeAtual = parseFloat(valores.idadeAtual);
-    const idadeAposentadoria = parseFloat(valores.idadeAposentadoria);
-    const rendaDesejada = parseFloat(valores.rendaDesejada);
-    const valorAtual = parseFloat(valores.valorAtual) || 0;
-    const aportesMensais = parseFloat(valores.aportesMensais) || 0;
-    const taxaJuros = parseFloat(valores.taxaJuros) / 100 / 12;
-    const inflacao = parseFloat(valores.inflacao) / 100;
+    const idadeAtualNum = parseFloat(idadeAtual) || 30;
+    const idadeAposentadoriaNum = parseFloat(idadeAposentadoria) || 60;
+    const rendaMensalAtualNum = parseFloat(rendaMensalAtual) || 3000;
+    const despesasMensaisNum = parseFloat(despesasMensais) || 2000;
+    const taxaRetornoInvestimentoNum = (parseFloat(taxaRetornoInvestimento) || 6) / 100;
+    const inflacaoAnualNum = (parseFloat(inflacaoAnual) || 4) / 100;
 
-    const tempoContribuicao = (idadeAposentadoria - idadeAtual) * 12;
-    
-    // Valor futuro com aportes mensais
-    const valorComAportes = valorAtual * Math.pow(1 + taxaJuros, tempoContribuicao) +
-      aportesMensais * ((Math.pow(1 + taxaJuros, tempoContribuicao) - 1) / taxaJuros);
+    const anosParaAposentadoria = idadeAposentadoriaNum - idadeAtualNum;
 
-    // Renda ajustada pela inflação
-    const rendaAjustada = rendaDesejada * Math.pow(1 + inflacao, idadeAposentadoria - idadeAtual);
+    // Calcula a renda mensal desejada na aposentadoria, ajustada pela inflação
+    let rendaMensalDesejada = despesasMensaisNum;
+    for (let i = 0; i < anosParaAposentadoria; i++) {
+      rendaMensalDesejada *= (1 + inflacaoAnualNum);
+    }
 
-    // Valor necessário para aposentadoria (regra dos 4%)
-    const valorNecessario = rendaAjustada * 12 / 0.04;
+    // Calcula o montante necessário para a aposentadoria
+    const montanteNecessario = (rendaMensalDesejada * 12) / taxaRetornoInvestimentoNum;
 
-    // Diferença
-    const diferenca = valorComAportes - valorNecessario;
+    // Calcula o valor atual economizado (se houver)
+    const valorAtualEconomizado = 0; // Assumindo que não há valor economizado inicialmente
+
+    // Calcula o investimento mensal necessário
+    let investimentoMensalNecessario = 0;
+    if (taxaRetornoInvestimentoNum > 0) {
+      investimentoMensalNecessario = (montanteNecessario - valorAtualEconomizado * Math.pow(1 + taxaRetornoInvestimentoNum, anosParaAposentadoria)) /
+        ((Math.pow(1 + taxaRetornoInvestimentoNum, anosParaAposentadoria) - 1) / taxaRetornoInvestimentoNum);
+    }
 
     setResultado({
-      valorComAportes,
-      valorNecessario,
-      rendaAjustada,
-      diferenca,
-      tempoContribuicao: tempoContribuicao / 12
+      idadeAtual: idadeAtualNum,
+      idadeAposentadoria: idadeAposentadoriaNum,
+      rendaMensalDesejada: rendaMensalDesejada,
+      montanteNecessario: montanteNecessario,
+      investimentoMensalNecessario: investimentoMensalNecessario
     });
-  };
-
-  const handleInputChange = (campo: string, valor: string) => {
-    setValores(prev => ({ ...prev, [campo]: valor }));
   };
 
   return (
@@ -68,7 +64,7 @@ const PlanejamentoAposentadoria = () => {
               Planejamento de Aposentadoria
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Calcule quanto você precisa economizar para ter a aposentadoria dos seus sonhos
+              Descubra quanto você precisa economizar para garantir uma aposentadoria tranquila
             </p>
           </div>
 
@@ -79,102 +75,89 @@ const PlanejamentoAposentadoria = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Calculator className="h-6 w-6" />
-                    Dados para Cálculo
+                    <TrendingUp className="h-6 w-6" />
+                    Simulador de Aposentadoria
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
                         Idade Atual
                       </label>
                       <Input
                         type="number"
                         placeholder="30"
-                        value={valores.idadeAtual}
-                        onChange={(e) => handleInputChange('idadeAtual', e.target.value)}
+                        value={idadeAtual}
+                        onChange={(e) => setIdadeAtual(e.target.value)}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Idade para Aposentadoria
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Idade de Aposentadoria Desejada
                       </label>
                       <Input
                         type="number"
-                        placeholder="65"
-                        value={valores.idadeAposentadoria}
-                        onChange={(e) => handleInputChange('idadeAposentadoria', e.target.value)}
+                        placeholder="60"
+                        value={idadeAposentadoria}
+                        onChange={(e) => setIdadeAposentadoria(e.target.value)}
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Renda Mensal Desejada (R$)
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Renda Mensal Atual (R$)
                       </label>
                       <Input
                         type="number"
-                        placeholder="5000"
-                        value={valores.rendaDesejada}
-                        onChange={(e) => handleInputChange('rendaDesejada', e.target.value)}
+                        placeholder="3000.00"
+                        value={rendaMensalAtual}
+                        onChange={(e) => setRendaMensalAtual(e.target.value)}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Valor Atual Investido (R$)
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Despesas Mensais Atuais (R$)
                       </label>
                       <Input
                         type="number"
-                        placeholder="10000"
-                        value={valores.valorAtual}
-                        onChange={(e) => handleInputChange('valorAtual', e.target.value)}
+                        placeholder="2000.00"
+                        value={despesasMensais}
+                        onChange={(e) => setDespesasMensais(e.target.value)}
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Aportes Mensais (R$)
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Taxa de Retorno Anual do Investimento (%)
                       </label>
                       <Input
                         type="number"
-                        placeholder="500"
-                        value={valores.aportesMensais}
-                        onChange={(e) => handleInputChange('aportesMensais', e.target.value)}
+                        placeholder="6"
+                        value={taxaRetornoInvestimento}
+                        onChange={(e) => setTaxaRetornoInvestimento(e.target.value)}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Taxa de Juros (% ao ano)
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Inflação Anual Estimada (%)
                       </label>
                       <Input
                         type="number"
-                        step="0.1"
-                        placeholder="10.5"
-                        value={valores.taxaJuros}
-                        onChange={(e) => handleInputChange('taxaJuros', e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Inflação (% ao ano)
-                      </label>
-                      <Input
-                        type="number"
-                        step="0.1"
                         placeholder="4"
-                        value={valores.inflacao}
-                        onChange={(e) => handleInputChange('inflacao', e.target.value)}
+                        value={inflacaoAnual}
+                        onChange={(e) => setInflacaoAnual(e.target.value)}
                       />
                     </div>
                   </div>
 
                   <Button onClick={calcularAposentadoria} className="w-full" size="lg">
-                    <TrendingUp className="h-5 w-5 mr-2" />
-                    Calcular Planejamento
+                    <Calculator className="h-5 w-5 mr-2" />
+                    Calcular Aposentadoria
                   </Button>
                 </CardContent>
               </Card>
@@ -182,48 +165,26 @@ const PlanejamentoAposentadoria = () => {
               {resultado && (
                 <Card className="mt-6">
                   <CardHeader>
-                    <CardTitle className="text-green-600">Resultado do Planejamento</CardTitle>
+                    <CardTitle className="text-green-600">Resultado da Simulação</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
-                        <div className="bg-blue-50 p-4 rounded-lg">
-                          <h3 className="font-semibold text-blue-800 mb-2">Valor Acumulado</h3>
-                          <p className="text-2xl font-bold text-blue-600">
-                            R$ {resultado.valorComAportes.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                          </p>
-                        </div>
-                        <div className="bg-purple-50 p-4 rounded-lg">
-                          <h3 className="font-semibold text-purple-800 mb-2">Valor Necessário</h3>
-                          <p className="text-2xl font-bold text-purple-600">
-                            R$ {resultado.valorNecessario.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                          </p>
-                        </div>
+                    <div className="space-y-4">
+                      <div className="bg-green-50 p-6 rounded-lg text-center">
+                        <h3 className="font-semibold text-green-800 mb-2">
+                          Renda Mensal Desejada na Aposentadoria
+                        </h3>
+                        <p className="text-3xl font-bold text-green-600">
+                          R$ {resultado.rendaMensalDesejada.toFixed(2)}
+                        </p>
                       </div>
-                      <div className="space-y-4">
-                        <div className="bg-amber-50 p-4 rounded-lg">
-                          <h3 className="font-semibold text-amber-800 mb-2">Renda Ajustada (Inflação)</h3>
-                          <p className="text-2xl font-bold text-amber-600">
-                            R$ {resultado.rendaAjustada.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                          </p>
-                        </div>
-                        <div className={`p-4 rounded-lg ${resultado.diferenca >= 0 ? 'bg-green-50' : 'bg-red-50'}`}>
-                          <h3 className={`font-semibold mb-2 ${resultado.diferenca >= 0 ? 'text-green-800' : 'text-red-800'}`}>
-                            {resultado.diferenca >= 0 ? 'Sobra' : 'Falta'}
-                          </h3>
-                          <p className={`text-2xl font-bold ${resultado.diferenca >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            R$ {Math.abs(resultado.diferenca).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                          </p>
-                        </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-gray-600">Montante Necessário:</span>
+                        <span className="font-semibold">R$ {resultado.montanteNecessario.toFixed(2)}</span>
                       </div>
-                    </div>
-                    <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-gray-600">
-                        <strong>Tempo de contribuição:</strong> {resultado.tempoContribuicao.toFixed(0)} anos
-                      </p>
-                      <p className="text-xs text-gray-500 mt-2">
-                        * Cálculo baseado na regra dos 4% para aposentadoria e considera inflação acumulada.
-                      </p>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-gray-600">Investimento Mensal Necessário:</span>
+                        <span className="font-semibold text-blue-600">R$ {resultado.investimentoMensalNecessario.toFixed(2)}</span>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -236,28 +197,28 @@ const PlanejamentoAposentadoria = () => {
               
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Dicas para Aposentadoria</CardTitle>
+                  <CardTitle className="text-lg">Dicas de Planejamento</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <DollarSign className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <Clock className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
                     <div>
                       <h4 className="font-semibold text-sm">Comece Cedo</h4>
-                      <p className="text-xs text-gray-600">O poder dos juros compostos funciona melhor com tempo</p>
+                      <p className="text-xs text-gray-600">Quanto antes começar, menor o esforço mensal</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <Calendar className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <Target className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                     <div>
-                      <h4 className="font-semibold text-sm">Seja Consistente</h4>
-                      <p className="text-xs text-gray-600">Aportes regulares são mais eficazes que valores altos esporádicos</p>
+                      <h4 className="font-semibold text-sm">Defina Metas</h4>
+                      <p className="text-xs text-gray-600">Tenha um objetivo claro de quanto quer acumular</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <TrendingUp className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
                     <div>
-                      <h4 className="font-semibold text-sm">Diversifique</h4>
-                      <p className="text-xs text-gray-600">Não coloque todos os ovos na mesma cesta</p>
+                      <h4 className="font-semibold text-sm">Invista Regularmente</h4>
+                      <p className="text-xs text-gray-600">A consistência é fundamental para o sucesso</p>
                     </div>
                   </div>
                 </CardContent>

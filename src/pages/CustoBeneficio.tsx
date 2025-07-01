@@ -1,27 +1,28 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
-import { TrendingUp, Plus, Trash2 } from 'lucide-react';
+import AdBanner from '../components/AdBanner';
+import CoursePromo from '../components/CoursePromo';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Plus, Trash2, Calculator, TrendingDown } from 'lucide-react';
 
 interface Product {
   id: number;
   name: string;
   price: number;
   weight: number;
-  unit: string;
+  quantity: number;
 }
 
 const CustoBeneficio = () => {
   const [products, setProducts] = useState<Product[]>([
-    { id: 1, name: '', price: 0, weight: 0, unit: 'kg' }
+    { id: 1, name: '', price: 0, weight: 0, quantity: 1 },
   ]);
 
   const addProduct = () => {
     const newId = Math.max(...products.map(p => p.id)) + 1;
-    setProducts([...products, { id: newId, name: '', price: 0, weight: 0, unit: 'kg' }]);
+    setProducts([...products, { id: newId, name: '', price: 0, weight: 0, quantity: 1 }]);
   };
 
   const removeProduct = (id: number) => {
@@ -30,238 +31,170 @@ const CustoBeneficio = () => {
     }
   };
 
-  const updateProduct = (id: number, field: keyof Product, value: string | number) => {
-    setProducts(products.map(p => 
-      p.id === id ? { ...p, [field]: value } : p
+  const updateProduct = (id: number, field: string, value: number | string) => {
+    setProducts(products.map(p =>
+      p.id === id ? { ...p, [field]: typeof value === 'number' ? Number(value) : value } : p
     ));
   };
 
   const calculateCostBenefit = (product: Product) => {
-    if (product.weight === 0) return 0;
-    return product.price / product.weight;
+    if (product.weight > 0 && product.price > 0 && product.quantity > 0) {
+      return (product.price / (product.weight * product.quantity));
+    }
+    return 0;
   };
 
-  const getBestDeal = () => {
-    const validProducts = products.filter(p => p.price > 0 && p.weight > 0);
-    if (validProducts.length === 0) return null;
-    
-    return validProducts.reduce((best, current) => 
-      calculateCostBenefit(current) < calculateCostBenefit(best) ? current : best
-    );
-  };
-
-  const bestDeal = getBestDeal();
+  const bestOption = products.reduce((prev, current) => {
+    const prevCostBenefit = calculateCostBenefit(prev);
+    const currentCostBenefit = calculateCostBenefit(current);
+    return prevCostBenefit < currentCostBenefit ? prev : current;
+  }, products[0]);
 
   return (
     <Layout>
-      {/* Header Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="flex justify-center mb-6">
-              <TrendingUp className="h-16 w-16 text-blue-200" />
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 flex items-center justify-center gap-3">
+              <Calculator className="h-10 w-10 text-blue-600" />
               Calculadora de Custo-Benefício
             </h1>
-            <p className="text-xl text-blue-100 mb-8">
-              Compare produtos com diferentes pesos e preços para descobrir qual oferece o melhor valor por dinheiro investido.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Compare diferentes produtos considerando peso, quantidade e preço para encontrar a melhor opção
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* Calculator Section */}
-      <section className="py-12">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-6 w-6 text-blue-600" />
-                  Compare Produtos
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {products.map((product, index) => (
-                  <div key={product.id} className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 bg-gray-50 rounded-lg">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Produto {index + 1}
-                      </label>
-                      <Input
-                        placeholder="Nome do produto"
-                        value={product.name}
-                        onChange={(e) => updateProduct(product.id, 'name', e.target.value)}
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Preço (R$)
-                      </label>
-                      <Input
-                        type="number"
-                        step="0.01"
-                        placeholder="0,00"
-                        value={product.price || ''}
-                        onChange={(e) => updateProduct(product.id, 'price', parseFloat(e.target.value) || 0)}
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Peso/Quantidade
-                      </label>
-                      <Input
-                        type="number"
-                        step="0.001"
-                        placeholder="0"
-                        value={product.weight || ''}
-                        onChange={(e) => updateProduct(product.id, 'weight', parseFloat(e.target.value) || 0)}
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Unidade
-                      </label>
-                      <select
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                        value={product.unit}
-                        onChange={(e) => updateProduct(product.id, 'unit', e.target.value)}
-                      >
-                        <option value="kg">kg</option>
-                        <option value="g">g</option>
-                        <option value="l">l</option>
-                        <option value="ml">ml</option>
-                        <option value="un">unidade</option>
-                      </select>
-                    </div>
-                    
-                    <div className="flex items-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => removeProduct(product.id)}
-                        disabled={products.length === 1}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-                
-                <Button onClick={addProduct} className="w-full">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Adicionar Produto
-                </Button>
-              </CardContent>
-            </Card>
+          <AdBanner size="large" className="mb-8" />
 
-            {/* Results */}
-            {products.some(p => p.price > 0 && p.weight > 0) && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
               <Card>
                 <CardHeader>
-                  <CardTitle>Resultados da Comparação</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <Calculator className="h-6 w-6 text-blue-600" />
+                    Comparar Produtos
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {products
-                      .filter(p => p.price > 0 && p.weight > 0)
-                      .map((product) => {
-                        const costPerUnit = calculateCostBenefit(product);
-                        const isBest = bestDeal?.id === product.id;
-                        
-                        return (
-                          <div
-                            key={product.id}
-                            className={`p-4 rounded-lg border-2 ${
-                              isBest 
-                                ? 'border-green-500 bg-green-50' 
-                                : 'border-gray-200 bg-white'
-                            }`}
-                          >
-                            <div className="flex justify-between items-center">
-                              <div>
-                                <h3 className="font-semibold text-lg">
-                                  {product.name || `Produto ${product.id}`}
-                                  {isBest && (
-                                    <span className="ml-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs">
-                                      MELHOR CUSTO-BENEFÍCIO
-                                    </span>
-                                  )}
-                                </h3>
-                                <p className="text-gray-600">
-                                  R$ {product.price.toFixed(2)} por {product.weight} {product.unit}
-                                </p>
-                              </div>
-                              <div className="text-right">
-                                <div className="text-2xl font-bold text-blue-600">
-                                  R$ {costPerUnit.toFixed(2)}
-                                </div>
-                                <div className="text-sm text-gray-500">
-                                  por {product.unit}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
+                <CardContent className="space-y-4">
+                  {products.map((product, index) => (
+                    <div key={product.id} className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Produto {index + 1}
+                        </label>
+                        <Input
+                          type="text"
+                          placeholder="Nome do produto"
+                          value={product.name}
+                          onChange={(e) => updateProduct(product.id, 'name', e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Preço (R$)
+                        </label>
+                        <Input
+                          type="number"
+                          step="0.01"
+                          placeholder="0.00"
+                          value={product.price}
+                          onChange={(e) => updateProduct(product.id, 'price', Number(e.target.value))}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Peso (kg)
+                        </label>
+                        <Input
+                          type="number"
+                          step="0.01"
+                          placeholder="0.00"
+                          value={product.weight}
+                          onChange={(e) => updateProduct(product.id, 'weight', Number(e.target.value))}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Quantidade
+                        </label>
+                        <Input
+                          type="number"
+                          placeholder="1"
+                          value={product.quantity}
+                          onChange={(e) => updateProduct(product.id, 'quantity', Number(e.target.value))}
+                        />
+                      </div>
+                      <div className="md:col-start-4 flex items-end">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => removeProduct(product.id)}
+                          disabled={products.length === 1}
+                          className="w-full"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+
+                  <Button onClick={addProduct} className="w-full">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Adicionar Produto
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {products.length > 0 && (
+                <Card className="mt-6">
+                  <CardHeader>
+                    <CardTitle>Melhor Opção</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {bestOption.name && (
+                      <div className="bg-green-50 p-4 rounded-lg">
+                        <h3 className="font-semibold text-green-800 mb-2">
+                          {bestOption.name} é a melhor opção!
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          Custo por kg: R$ {calculateCostBenefit(bestOption).toFixed(2)}
+                        </p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+
+            <div className="space-y-6">
+              <CoursePromo />
+              <AdBanner size="medium" />
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Dicas de Compra</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <TrendingDown className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-sm">Compare por Unidade</h4>
+                      <p className="text-xs text-gray-600">Sempre calcule o preço por kg, litro ou unidade</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Calculator className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-sm">Considere a Qualidade</h4>
+                      <p className="text-xs text-gray-600">O mais barato nem sempre é a melhor opção</p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Info Section */}
-      <section className="bg-gray-50 py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-8">Como Usar a Calculadora de Custo-Benefício</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold mb-4 text-blue-600">1. Adicione os Produtos</h3>
-                <p className="text-gray-600">
-                  Insira o nome, preço, peso/quantidade e unidade de medida de cada produto que deseja comparar.
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold mb-4 text-blue-600">2. Compare os Resultados</h3>
-                <p className="text-gray-600">
-                  A calculadora mostra o preço por unidade de cada produto, destacando o melhor custo-benefício.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-blue-50 p-8 rounded-lg">
-              <h3 className="text-2xl font-semibold mb-4 text-blue-800">💡 Dicas para Economizar</h3>
-              <ul className="space-y-3 text-blue-700">
-                <li className="flex items-start">
-                  <span className="font-semibold mr-2">•</span>
-                  Sempre compare produtos similares da mesma categoria
-                </li>
-                <li className="flex items-start">
-                  <span className="font-semibold mr-2">•</span>
-                  Considere a qualidade do produto, não apenas o preço
-                </li>
-                <li className="flex items-start">
-                  <span className="font-semibold mr-2">•</span>
-                  Verifique datas de validade em produtos perecíveis
-                </li>
-                <li className="flex items-start">
-                  <span className="font-semibold mr-2">•</span>
-                  Produtos em embalagens maiores geralmente têm melhor custo-benefício
-                </li>
-              </ul>
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </Layout>
   );
 };

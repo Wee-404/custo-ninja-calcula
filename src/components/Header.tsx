@@ -10,15 +10,16 @@ const Header = () => {
 
   const menuItems = [
     { path: '/', label: 'Início' },
+    { path: '/utilitarios-financeiros', label: 'Utilitários' },
     { path: '/custo-beneficio', label: 'Custo-Benefício' },
     { path: '/divisao-conta', label: 'Divisão de Conta' },
     { path: '/contador-cervejas', label: 'Contador Cervejas' },
     { path: '/investimentos', label: 'Investimentos' },
     { path: '/calculadora-basica', label: 'Calculadora Básica' },
     { path: '/planejamento-aposentadoria', label: 'Aposentadoria' },
-    { path: '/consulta-fipe', label: 'Consulta FIPE' },
     { path: '/precificacao-servicos', label: 'Precificação' },
     { path: '/educacao-financeira', label: 'Educação Financeira' },
+    { path: '/empreendedorismo-local', label: 'Empreendedorismo' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
