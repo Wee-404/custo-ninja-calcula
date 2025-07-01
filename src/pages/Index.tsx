@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import AdBanner from '../components/AdBanner';
 import CoursePromo from '../components/CoursePromo';
+import NinjaGame from '../components/NinjaGame';
 import { Calculator, TrendingUp, Users, Beer, PiggyBank, CircleArrowDown, Car, DollarSign, GraduationCap } from 'lucide-react';
 
 const Index = () => {
@@ -105,6 +105,21 @@ const Index = () => {
       </section>
 
       <AdBanner size="large" className="mx-4 my-8" />
+
+      {/* Mini Game Section */}
+      <section className="py-12 bg-gradient-to-br from-purple-50 to-blue-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+              🎮 Mini Jogo: Ninja do Dinheiro
+            </h2>
+            <p className="text-lg text-gray-600">
+              Relaxe um pouco com nosso jogo! Ajude o ninja a coletar sacos de dinheiro.
+            </p>
+          </div>
+          <NinjaGame />
+        </div>
+      </section>
 
       {/* Calculators Grid */}
       <section className="py-20 bg-gray-50">
