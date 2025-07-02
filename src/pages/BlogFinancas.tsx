@@ -315,7 +315,7 @@ const BlogFinancas = () => {
   const categories = [
     { name: "História Real", icon: Heart, count: 8, color: "text-red-600" },
     { name: "Reflexão", icon: Coffee, count: 6, color: "text-amber-600" },
-    { name: "Família", icon: Users, count: 12, color: "text-green-600" },
+    { name: "Família", icon: User, count: 12, color: "text-green-600" },
     { name: "Aposentadoria", icon: Target, count: 4, color: "text-blue-600" },
     { name: "Empreendedorismo", icon: Briefcase, count: 10, color: "text-purple-600" },
     { name: "Investimentos", icon: TrendingUp, count: 15, color: "text-indigo-600" },
