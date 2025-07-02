@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -76,7 +75,7 @@ const NinjaGame = () => {
         setNinja(prev => ({ ...prev, y: GROUND_Y }));
         setIsJumping(false);
         setJumpCount(0);
-      }, 300);
+      }, 200);
     }
   }, [gameOver, gameStarted, jumpCount]);
 
@@ -127,6 +126,7 @@ const NinjaGame = () => {
     if (!gameStarted || gameOver) return;
 
     const gameLoop = setInterval(() => {
+      // Move objects
       setMoneyBags(prev => prev.map(money => ({
         ...money,
         x: money.x - GAME_SPEED
@@ -142,6 +142,7 @@ const NinjaGame = () => {
         x: cloud.x - cloud.speed
       })).filter(cloud => cloud.x > -100));
 
+      // Spawn new money bags
       setMoneyBags(prev => {
         if (Math.random() < 0.01 && (prev.length === 0 || prev[prev.length - 1].x < 500)) {
           return [...prev, {
@@ -155,6 +156,7 @@ const NinjaGame = () => {
         return prev;
       });
 
+      // Spawn new obstacles
       setObstacles(prev => {
         if (Math.random() < 0.008 && (prev.length === 0 || prev[prev.length - 1].x < 400)) {
           return [...prev, {
@@ -167,6 +169,7 @@ const NinjaGame = () => {
         return prev;
       });
 
+      // Spawn new clouds
       setClouds(prev => {
         if (Math.random() < 0.005 && (prev.length === 0 || prev[prev.length - 1].x < 600)) {
           return [...prev, {
@@ -180,33 +183,31 @@ const NinjaGame = () => {
         return prev;
       });
 
+      // Check collisions
+      setMoneyBags(prevMoney => {
+        return prevMoney.map(money => {
+          if (!money.collected && checkCollision(ninja, money)) {
+            setScore(s => s + 10);
+            return { ...money, collected: true };
+          }
+          return money;
+        });
+      });
+
+      // Check obstacle collisions
+      setObstacles(prevObstacles => {
+        prevObstacles.forEach(obstacle => {
+          if (!invulnerable && checkCollision(ninja, obstacle)) {
+            loseLife();
+          }
+        });
+        return prevObstacles;
+      });
+
     }, 16);
 
     return () => clearInterval(gameLoop);
-  }, [gameStarted, gameOver]);
-
-  useEffect(() => {
-    if (!gameStarted || gameOver || invulnerable) return;
-
-    const collisionCheck = setInterval(() => {
-      setMoneyBags(prev => prev.map(money => {
-        if (!money.collected && checkCollision(ninja, money)) {
-          setScore(s => s + 10);
-          return { ...money, collected: true };
-        }
-        return money;
-      }));
-
-      obstacles.forEach(obstacle => {
-        if (checkCollision(ninja, obstacle)) {
-          console.log('Collision detected!');
-          loseLife();
-        }
-      });
-    }, 50);
-
-    return () => clearInterval(collisionCheck);
-  }, [ninja, obstacles, gameStarted, gameOver, checkCollision, loseLife, invulnerable]);
+  }, [gameStarted, gameOver, ninja, checkCollision, loseLife, invulnerable]);
 
   if (!gameStarted) {
     return (
@@ -268,7 +269,7 @@ const NinjaGame = () => {
         ))}
 
         <div
-          className={`absolute text-4xl transition-all duration-300 ${invulnerable ? 'animate-pulse opacity-50' : ''}`}
+          className={`absolute text-4xl transition-all duration-200 ${invulnerable ? 'animate-pulse opacity-50' : ''}`}
           style={{
             left: ninja.x,
             bottom: 280 - ninja.y - ninja.height,

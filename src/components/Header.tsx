@@ -14,6 +14,7 @@ const Header = () => {
     { path: '/custo-beneficio', label: 'Custo-Benefício' },
     { path: '/divisao-conta', label: 'Divisão de Conta' },
     { path: '/investimentos', label: 'Investimentos' },
+    { path: '/blog-financas', label: 'Blog' },
     { path: '/educacao-financeira', label: 'Educação Financeira' },
     { path: '/empreendedorismo-local', label: 'Empreendedorismo' },
   ];

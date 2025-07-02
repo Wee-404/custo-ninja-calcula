@@ -16,6 +16,7 @@ import PrecificacaoServicos from "./pages/PrecificacaoServicos";
 import EducacaoFinanceira from "./pages/EducacaoFinanceira";
 import EmpreendedorismoLocal from "./pages/EmpreendedorismoLocal";
 import UtilitariosFinanceiros from "./pages/UtilitariosFinanceiros";
+import BlogFinancas from "./pages/BlogFinancas";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const AppWrapper = () => {
       <Route path="/educacao-financeira" element={<EducacaoFinanceira />} />
       <Route path="/empreendedorismo-local" element={<EmpreendedorismoLocal />} />
       <Route path="/utilitarios-financeiros" element={<UtilitariosFinanceiros />} />
+      <Route path="/blog-financas" element={<BlogFinancas />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
