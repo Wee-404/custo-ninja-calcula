@@ -1,6 +1,8 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Heart } from 'lucide-react';
 
 interface GameObject {
   x: number;
@@ -13,10 +15,15 @@ interface Money extends GameObject {
   collected: boolean;
 }
 
+interface CloudObject extends GameObject {
+  speed: number;
+}
+
 const NinjaGame = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
+  const [lives, setLives] = useState(3);
   const [ninja, setNinja] = useState<GameObject>({
     x: 50,
     y: 200,
@@ -27,6 +34,8 @@ const NinjaGame = () => {
   const [jumpCount, setJumpCount] = useState(0);
   const [moneyBags, setMoneyBags] = useState<Money[]>([]);
   const [obstacles, setObstacles] = useState<GameObject[]>([]);
+  const [clouds, setClouds] = useState<CloudObject[]>([]);
+  const [invulnerable, setInvulnerable] = useState(false);
 
   const GROUND_Y = 200;
   const JUMP_HEIGHT = 80;
@@ -37,11 +46,14 @@ const NinjaGame = () => {
   const resetGame = useCallback(() => {
     setGameOver(false);
     setScore(0);
+    setLives(3);
     setNinja({ x: 50, y: GROUND_Y, width: 40, height: 40 });
     setIsJumping(false);
     setJumpCount(0);
     setMoneyBags([]);
     setObstacles([]);
+    setClouds([]);
+    setInvulnerable(false);
   }, []);
 
   const startGame = useCallback(() => {
@@ -60,11 +72,12 @@ const NinjaGame = () => {
       
       setNinja(prev => ({ ...prev, y: targetY }));
       
+      // Salto mais rápido - reduzido de 600ms para 400ms
       setTimeout(() => {
         setNinja(prev => ({ ...prev, y: GROUND_Y }));
         setIsJumping(false);
         setJumpCount(0);
-      }, 600);
+      }, 400);
     }
   }, [gameOver, gameStarted, jumpCount]);
 
@@ -82,6 +95,21 @@ const NinjaGame = () => {
            obj1.y < obj2.y + obj2.height &&
            obj1.y + obj1.height > obj2.y;
   }, []);
+
+  const loseLife = useCallback(() => {
+    if (invulnerable) return;
+    
+    setLives(prev => {
+      const newLives = prev - 1;
+      if (newLives <= 0) {
+        setGameOver(true);
+      }
+      return newLives;
+    });
+    
+    setInvulnerable(true);
+    setTimeout(() => setInvulnerable(false), 2000); // 2 segundos de invulnerabilidade
+  }, [invulnerable]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -111,6 +139,12 @@ const NinjaGame = () => {
         x: obstacle.x - GAME_SPEED
       })).filter(obstacle => obstacle.x > -50));
 
+      // Move clouds
+      setClouds(prev => prev.map(cloud => ({
+        ...cloud,
+        x: cloud.x - cloud.speed
+      })).filter(cloud => cloud.x > -100));
+
       // Spawn money bags
       setMoneyBags(prev => {
         if (Math.random() < 0.01 && (prev.length === 0 || prev[prev.length - 1].x < 500)) {
@@ -138,13 +172,27 @@ const NinjaGame = () => {
         return prev;
       });
 
+      // Spawn clouds
+      setClouds(prev => {
+        if (Math.random() < 0.005 && (prev.length === 0 || prev[prev.length - 1].x < 600)) {
+          return [...prev, {
+            x: 800,
+            y: 50 + Math.random() * 80,
+            width: 60,
+            height: 30,
+            speed: 0.5 + Math.random() * 0.5
+          }];
+        }
+        return prev;
+      });
+
     }, 16);
 
     return () => clearInterval(gameLoop);
   }, [gameStarted, gameOver]);
 
   useEffect(() => {
-    if (!gameStarted || gameOver) return;
+    if (!gameStarted || gameOver || invulnerable) return;
 
     const collisionCheck = setInterval(() => {
       // Check money collection
@@ -159,13 +207,13 @@ const NinjaGame = () => {
       // Check obstacle collision
       obstacles.forEach(obstacle => {
         if (checkCollision(ninja, obstacle)) {
-          setGameOver(true);
+          loseLife();
         }
       });
     }, 16);
 
     return () => clearInterval(collisionCheck);
-  }, [ninja, obstacles, gameStarted, gameOver, checkCollision]);
+  }, [ninja, obstacles, gameStarted, gameOver, checkCollision, loseLife, invulnerable]);
 
   if (!gameStarted) {
     return (
@@ -188,14 +236,36 @@ const NinjaGame = () => {
           💰 {score}
         </div>
 
-        <div className="absolute top-4 left-4 text-sm text-white bg-black bg-opacity-50 px-2 py-1 rounded">
+        <div className="absolute top-4 left-4 flex items-center gap-2 text-white bg-black bg-opacity-50 px-2 py-1 rounded">
+          {[...Array(lives)].map((_, i) => (
+            <Heart key={i} className="h-5 w-5 fill-red-500 text-red-500" />
+          ))}
+        </div>
+
+        <div className="absolute top-16 left-4 text-sm text-white bg-black bg-opacity-50 px-2 py-1 rounded">
           Saltos: {jumpCount}/{MAX_JUMPS}
         </div>
 
         <div className="absolute bottom-0 w-full h-20 bg-gradient-to-t from-green-600 to-green-400"></div>
 
+        {/* Clouds */}
+        {clouds.map((cloud, index) => (
+          <div
+            key={index}
+            className="absolute text-3xl opacity-70"
+            style={{
+              left: cloud.x,
+              top: cloud.y,
+              width: cloud.width,
+              height: cloud.height
+            }}
+          >
+            ☁️
+          </div>
+        ))}
+
         <div
-          className="absolute text-4xl transition-all duration-300"
+          className={`absolute text-4xl transition-all duration-300 ${invulnerable ? 'animate-pulse opacity-50' : ''}`}
           style={{
             left: ninja.x,
             bottom: 280 - ninja.y - ninja.height,
@@ -211,7 +281,7 @@ const NinjaGame = () => {
           !money.collected && (
             <div
               key={index}
-              className="absolute text-2xl animate-pulse"
+              className="absolute text-2xl animate-bounce"
               style={{
                 left: money.x,
                 bottom: 280 - money.y - money.height,
@@ -243,7 +313,8 @@ const NinjaGame = () => {
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20">
             <div className="bg-white p-8 rounded-lg text-center">
               <h3 className="text-2xl font-bold text-gray-800 mb-4">Game Over!</h3>
-              <p className="text-lg text-gray-600 mb-4">Pontuação: {score}</p>
+              <p className="text-lg text-gray-600 mb-2">Dinheiro Coletado: 💰 {score}</p>
+              <p className="text-md text-gray-500 mb-4">Você teve uma boa aventura ninja!</p>
               <Button onClick={startGame} className="bg-purple-600 hover:bg-purple-700">
                 Jogar Novamente
               </Button>

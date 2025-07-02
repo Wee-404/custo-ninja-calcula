@@ -13,11 +13,7 @@ const Header = () => {
     { path: '/utilitarios-financeiros', label: 'Utilitários' },
     { path: '/custo-beneficio', label: 'Custo-Benefício' },
     { path: '/divisao-conta', label: 'Divisão de Conta' },
-    { path: '/contador-cervejas', label: 'Contador Cervejas' },
     { path: '/investimentos', label: 'Investimentos' },
-    { path: '/calculadora-basica', label: 'Calculadora Básica' },
-    { path: '/planejamento-aposentadoria', label: 'Aposentadoria' },
-    { path: '/precificacao-servicos', label: 'Precificação' },
     { path: '/educacao-financeira', label: 'Educação Financeira' },
     { path: '/empreendedorismo-local', label: 'Empreendedorismo' },
   ];
@@ -39,7 +35,7 @@ const Header = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-2 py-2 rounded-md text-xs font-medium transition-colors ${
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   isActive(item.path)
                     ? 'bg-blue-600 text-white'
                     : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'

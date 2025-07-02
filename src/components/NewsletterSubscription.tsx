@@ -27,17 +27,76 @@ const NewsletterSubscription = () => {
     }
   };
 
+  const getLocationInfo = () => {
+    return new Promise((resolve) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            resolve({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              accuracy: position.coords.accuracy
+            });
+          },
+          () => {
+            resolve({ location: 'Localização não disponível' });
+          }
+        );
+      } else {
+        resolve({ location: 'Geolocalização não suportada' });
+      }
+    });
+  };
+
+  const sendEmailNotification = async (emailData: any) => {
+    try {
+      // Simular envio de email (em produção, usar um serviço real)
+      const response = await fetch('https://formsubmit.co/fence_brownnose511@passmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: emailData.email,
+          interests: emailData.interests.join(', '),
+          location: JSON.stringify(emailData.location),
+          timestamp: new Date().toISOString(),
+          subject: 'Nova Inscrição Newsletter - Custo Ninja'
+        })
+      });
+      
+      return response.ok;
+    } catch (error) {
+      console.log('Erro ao enviar email:', error);
+      return false;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || interests.length === 0) return;
 
     setLoading(true);
     
-    // Simular envio (em produção, conectar com serviço de email)
-    setTimeout(() => {
-      setSubscribed(true);
+    try {
+      const locationInfo = await getLocationInfo();
+      
+      const emailData = {
+        email,
+        interests,
+        location: locationInfo
+      };
+
+      await sendEmailNotification(emailData);
+      
+      setTimeout(() => {
+        setSubscribed(true);
+        setLoading(false);
+      }, 1000);
+    } catch (error) {
+      console.log('Erro na inscrição:', error);
       setLoading(false);
-    }, 1000);
+    }
   };
 
   if (subscribed) {

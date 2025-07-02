@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
@@ -50,13 +49,6 @@ const Index = () => {
       icon: <DollarSign className="h-6 w-6" />,
       path: '/empreendedorismo-local',
       color: 'from-emerald-500 to-emerald-600',
-    },
-    {
-      title: 'Consulta FIPE',
-      description: 'Valor atualizado de veículos',
-      icon: <Car className="h-6 w-6" />,
-      path: '/consulta-fipe',
-      color: 'from-red-500 to-red-600',
     },
     {
       title: 'Contador de Cervejas',
