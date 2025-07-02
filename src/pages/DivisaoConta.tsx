@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { Users, Plus, Trash2 } from 'lucide-react';
@@ -18,6 +17,21 @@ const DivisaoConta = () => {
   ]);
   const [serviceRate, setServiceRate] = useState<number>(10);
   const [totalBill, setTotalBill] = useState<number>(0);
+  const [numberOfPeople, setNumberOfPeople] = useState<number>(1);
+  const [showPeopleSetup, setShowPeopleSetup] = useState<boolean>(true);
+
+  const setupPeople = (count: number) => {
+    const newPeople: Person[] = [];
+    for (let i = 1; i <= count; i++) {
+      newPeople.push({
+        id: i,
+        name: '',
+        consumption: 0
+      });
+    }
+    setPeople(newPeople);
+    setShowPeopleSetup(false);
+  };
 
   const addPerson = () => {
     const newId = Math.max(...people.map(p => p.id)) + 1;
@@ -70,190 +84,268 @@ const DivisaoConta = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             
-            {/* Service Rate Configuration */}
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Configurações Gerais</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Taxa de Serviço (%)
-                    </label>
-                    <Input
-                      type="number"
-                      step="0.5"
-                      value={serviceRate}
-                      onChange={(e) => setServiceRate(parseFloat(e.target.value) || 0)}
-                    />
-                    <p className="text-xs text-gray-500 mt-1">
-                      Geralmente 10% do valor total
-                    </p>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Total da Conta (opcional)
-                    </label>
-                    <Input
-                      type="number"
-                      step="0.01"
-                      placeholder="R$ 0,00"
-                      value={totalBill || ''}
-                      onChange={(e) => setTotalBill(parseFloat(e.target.value) || 0)}
-                    />
-                    <p className="text-xs text-gray-500 mt-1">
-                      Para verificação (opcional)
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* People and Consumption */}
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="h-6 w-6 text-green-600" />
-                  Pessoas e Consumo Individual
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {people.map((person, index) => (
-                  <div key={person.id} className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Nome da Pessoa {index + 1}
-                      </label>
-                      <Input
-                        placeholder="Digite o nome"
-                        value={person.name}
-                        onChange={(e) => updatePerson(person.id, 'name', e.target.value)}
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Consumo Individual (R$)
-                      </label>
+            {/* Number of People Setup */}
+            {showPeopleSetup && (
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle>Quantas pessoas vão dividir a conta?</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-4">
                       <Input
                         type="number"
-                        step="0.01"
-                        placeholder="0,00"
-                        value={person.consumption || ''}
-                        onChange={(e) => updatePerson(person.id, 'consumption', parseFloat(e.target.value) || 0)}
+                        min="1"
+                        max="20"
+                        value={numberOfPeople}
+                        onChange={(e) => setNumberOfPeople(parseInt(e.target.value) || 1)}
+                        className="w-32"
                       />
+                      <Button onClick={() => setupPeople(numberOfPeople)}>
+                        Configurar {numberOfPeople} pessoas
+                      </Button>
                     </div>
                     
-                    <div className="flex items-end">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-4">
                       <Button
                         variant="outline"
-                        size="icon"
-                        onClick={() => removePerson(person.id)}
-                        disabled={people.length === 1}
-                        className="w-full"
+                        onClick={() => {
+                          setNumberOfPeople(2);
+                          setupPeople(2);
+                        }}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        2 pessoas
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setNumberOfPeople(3);
+                          setupPeople(3);
+                        }}
+                      >
+                        3 pessoas
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setNumberOfPeople(4);
+                          setupPeople(4);
+                        }}
+                      >
+                        4 pessoas
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setNumberOfPeople(6);
+                          setupPeople(6);
+                        }}
+                      >
+                        6 pessoas
                       </Button>
                     </div>
                   </div>
-                ))}
-                
-                <Button onClick={addPerson} className="w-full">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Adicionar Pessoa
-                </Button>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            )}
 
-            {/* Results */}
-            {totalConsumption > 0 && (
-              <div className="space-y-6">
-                {/* Summary */}
-                <Card>
+            {!showPeopleSetup && (
+              <>
+                {/* Service Rate Configuration */}
+                <Card className="mb-6">
                   <CardHeader>
-                    <CardTitle>Resumo da Conta</CardTitle>
+                    <CardTitle className="flex justify-between items-center">
+                      Configurações Gerais
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowPeopleSetup(true)}
+                      >
+                        Alterar Número de Pessoas
+                      </Button>
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                      <div className="bg-blue-50 p-4 rounded-lg">
-                        <div className="text-2xl font-bold text-blue-600">
-                          R$ {totalConsumption.toFixed(2)}
-                        </div>
-                        <div className="text-sm text-gray-600">Total Consumido</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Taxa de Serviço (%)
+                        </label>
+                        <Input
+                          type="number"
+                          step="0.5"
+                          value={serviceRate}
+                          onChange={(e) => setServiceRate(parseFloat(e.target.value) || 0)}
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Geralmente 10% do valor total
+                        </p>
                       </div>
                       
-                      <div className="bg-yellow-50 p-4 rounded-lg">
-                        <div className="text-2xl font-bold text-yellow-600">
-                          R$ {serviceAmount.toFixed(2)}
-                        </div>
-                        <div className="text-sm text-gray-600">Taxa de Serviço ({serviceRate}%)</div>
-                      </div>
-                      
-                      <div className="bg-green-50 p-4 rounded-lg">
-                        <div className="text-2xl font-bold text-green-600">
-                          R$ {finalTotal.toFixed(2)}
-                        </div>
-                        <div className="text-sm text-gray-600">Total Final</div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Total da Conta (opcional)
+                        </label>
+                        <Input
+                          type="number"
+                          step="0.01"
+                          placeholder="R$ 0,00"
+                          value={totalBill || ''}
+                          onChange={(e) => setTotalBill(parseFloat(e.target.value) || 0)}
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Para verificação (opcional)
+                        </p>
                       </div>
                     </div>
-                    
-                    {totalBill > 0 && (
-                      <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                        <div className="flex justify-between items-center">
-                          <span>Valor informado da conta:</span>
-                          <span className="font-semibold">R$ {totalBill.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span>Diferença:</span>
-                          <span className={`font-semibold ${Math.abs(totalBill - finalTotal) < 0.01 ? 'text-green-600' : 'text-red-600'}`}>
-                            R$ {Math.abs(totalBill - finalTotal).toFixed(2)}
-                            {totalBill !== finalTotal && (totalBill > finalTotal ? ' a menos' : ' a mais')}
-                          </span>
-                        </div>
-                      </div>
-                    )}
                   </CardContent>
                 </Card>
 
-                {/* Individual Shares */}
-                <Card>
+                {/* People and Consumption */}
+                <Card className="mb-8">
                   <CardHeader>
-                    <CardTitle>Valor a Pagar por Pessoa</CardTitle>
+                    <CardTitle className="flex items-center gap-2">
+                      <Users className="h-6 w-6 text-green-600" />
+                      Pessoas e Consumo Individual ({people.length} pessoas)
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {people.filter(p => p.consumption > 0).map((person) => {
-                        const personTotal = calculatePersonShare(person);
-                        const serviceShare = person.consumption * (serviceRate / 100);
+                  <CardContent className="space-y-4">
+                    {people.map((person, index) => (
+                      <div key={person.id} className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Nome da Pessoa {index + 1}
+                          </label>
+                          <Input
+                            placeholder="Digite o nome"
+                            value={person.name}
+                            onChange={(e) => updatePerson(person.id, 'name', e.target.value)}
+                          />
+                        </div>
                         
-                        return (
-                          <div key={person.id} className="bg-white border-2 border-gray-200 p-4 rounded-lg">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <h3 className="font-semibold text-lg">
-                                  {person.name || `Pessoa ${person.id}`}
-                                </h3>
-                                <div className="text-sm text-gray-600 space-y-1">
-                                  <div>Consumo: R$ {person.consumption.toFixed(2)}</div>
-                                  <div>Taxa de serviço: R$ {serviceShare.toFixed(2)}</div>
-                                </div>
-                              </div>
-                              <div className="text-right">
-                                <div className="text-2xl font-bold text-green-600">
-                                  R$ {personTotal.toFixed(2)}
-                                </div>
-                                <div className="text-sm text-gray-500">Total a pagar</div>
-                              </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Consumo Individual (R$)
+                          </label>
+                          <Input
+                            type="number"
+                            step="0.01"
+                            placeholder="0,00"
+                            value={person.consumption || ''}
+                            onChange={(e) => updatePerson(person.id, 'consumption', parseFloat(e.target.value) || 0)}
+                          />
+                        </div>
+                        
+                        <div className="flex items-end">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => removePerson(person.id)}
+                            disabled={people.length === 1}
+                            className="w-full"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                    
+                    <Button onClick={addPerson} className="w-full">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Adicionar Pessoa
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Results */}
+                {totalConsumption > 0 && (
+                  <div className="space-y-6">
+                    {/* Summary */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Resumo da Conta</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                          <div className="bg-blue-50 p-4 rounded-lg">
+                            <div className="text-2xl font-bold text-blue-600">
+                              R$ {totalConsumption.toFixed(2)}
+                            </div>
+                            <div className="text-sm text-gray-600">Total Consumido</div>
+                          </div>
+                          
+                          <div className="bg-yellow-50 p-4 rounded-lg">
+                            <div className="text-2xl font-bold text-yellow-600">
+                              R$ {serviceAmount.toFixed(2)}
+                            </div>
+                            <div className="text-sm text-gray-600">Taxa de Serviço ({serviceRate}%)</div>
+                          </div>
+                          
+                          <div className="bg-green-50 p-4 rounded-lg">
+                            <div className="text-2xl font-bold text-green-600">
+                              R$ {finalTotal.toFixed(2)}
+                            </div>
+                            <div className="text-sm text-gray-600">Total Final</div>
+                          </div>
+                        </div>
+                        
+                        {totalBill > 0 && (
+                          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                            <div className="flex justify-between items-center">
+                              <span>Valor informado da conta:</span>
+                              <span className="font-semibold">R$ {totalBill.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span>Diferença:</span>
+                              <span className={`font-semibold ${Math.abs(totalBill - finalTotal) < 0.01 ? 'text-green-600' : 'text-red-600'}`}>
+                                R$ {Math.abs(totalBill - finalTotal).toFixed(2)}
+                                {totalBill !== finalTotal && (totalBill > finalTotal ? ' a menos' : ' a mais')}
+                              </span>
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+                        )}
+                      </CardContent>
+                    </Card>
+
+                    {/* Individual Shares */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Valor a Pagar por Pessoa</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          {people.filter(p => p.consumption > 0).map((person) => {
+                            const personTotal = calculatePersonShare(person);
+                            const serviceShare = person.consumption * (serviceRate / 100);
+                            
+                            return (
+                              <div key={person.id} className="bg-white border-2 border-gray-200 p-4 rounded-lg">
+                                <div className="flex justify-between items-start">
+                                  <div>
+                                    <h3 className="font-semibold text-lg">
+                                      {person.name || `Pessoa ${person.id}`}
+                                    </h3>
+                                    <div className="text-sm text-gray-600 space-y-1">
+                                      <div>Consumo: R$ {person.consumption.toFixed(2)}</div>
+                                      <div>Taxa de serviço: R$ {serviceShare.toFixed(2)}</div>
+                                    </div>
+                                  </div>
+                                  <div className="text-right">
+                                    <div className="text-2xl font-bold text-green-600">
+                                      R$ {personTotal.toFixed(2)}
+                                    </div>
+                                    <div className="text-sm text-gray-500">Total a pagar</div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

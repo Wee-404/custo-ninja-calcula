@@ -72,12 +72,11 @@ const NinjaGame = () => {
       
       setNinja(prev => ({ ...prev, y: targetY }));
       
-      // Salto mais rápido - reduzido de 600ms para 400ms
       setTimeout(() => {
         setNinja(prev => ({ ...prev, y: GROUND_Y }));
         setIsJumping(false);
         setJumpCount(0);
-      }, 400);
+      }, 300);
     }
   }, [gameOver, gameStarted, jumpCount]);
 
@@ -103,12 +102,13 @@ const NinjaGame = () => {
       const newLives = prev - 1;
       if (newLives <= 0) {
         setGameOver(true);
+        setGameStarted(false);
       }
       return newLives;
     });
     
     setInvulnerable(true);
-    setTimeout(() => setInvulnerable(false), 2000); // 2 segundos de invulnerabilidade
+    setTimeout(() => setInvulnerable(false), 1500);
   }, [invulnerable]);
 
   useEffect(() => {
@@ -127,25 +127,21 @@ const NinjaGame = () => {
     if (!gameStarted || gameOver) return;
 
     const gameLoop = setInterval(() => {
-      // Move money bags
       setMoneyBags(prev => prev.map(money => ({
         ...money,
         x: money.x - GAME_SPEED
       })).filter(money => money.x > -50));
 
-      // Move obstacles
       setObstacles(prev => prev.map(obstacle => ({
         ...obstacle,
         x: obstacle.x - GAME_SPEED
       })).filter(obstacle => obstacle.x > -50));
 
-      // Move clouds
       setClouds(prev => prev.map(cloud => ({
         ...cloud,
         x: cloud.x - cloud.speed
       })).filter(cloud => cloud.x > -100));
 
-      // Spawn money bags
       setMoneyBags(prev => {
         if (Math.random() < 0.01 && (prev.length === 0 || prev[prev.length - 1].x < 500)) {
           return [...prev, {
@@ -159,7 +155,6 @@ const NinjaGame = () => {
         return prev;
       });
 
-      // Spawn obstacles
       setObstacles(prev => {
         if (Math.random() < 0.008 && (prev.length === 0 || prev[prev.length - 1].x < 400)) {
           return [...prev, {
@@ -172,7 +167,6 @@ const NinjaGame = () => {
         return prev;
       });
 
-      // Spawn clouds
       setClouds(prev => {
         if (Math.random() < 0.005 && (prev.length === 0 || prev[prev.length - 1].x < 600)) {
           return [...prev, {
@@ -195,7 +189,6 @@ const NinjaGame = () => {
     if (!gameStarted || gameOver || invulnerable) return;
 
     const collisionCheck = setInterval(() => {
-      // Check money collection
       setMoneyBags(prev => prev.map(money => {
         if (!money.collected && checkCollision(ninja, money)) {
           setScore(s => s + 10);
@@ -204,13 +197,13 @@ const NinjaGame = () => {
         return money;
       }));
 
-      // Check obstacle collision
       obstacles.forEach(obstacle => {
         if (checkCollision(ninja, obstacle)) {
+          console.log('Collision detected!');
           loseLife();
         }
       });
-    }, 16);
+    }, 50);
 
     return () => clearInterval(collisionCheck);
   }, [ninja, obstacles, gameStarted, gameOver, checkCollision, loseLife, invulnerable]);
@@ -248,7 +241,17 @@ const NinjaGame = () => {
 
         <div className="absolute bottom-0 w-full h-20 bg-gradient-to-t from-green-600 to-green-400"></div>
 
-        {/* Clouds */}
+        {/* Sol */}
+        <div className="absolute top-8 right-20 text-4xl">☀️</div>
+        
+        {/* Montanhas */}
+        <div className="absolute bottom-20 left-60 text-4xl opacity-80">🏔️</div>
+        <div className="absolute bottom-20 right-40 text-3xl opacity-70">⛰️</div>
+
+        {/* Árvores */}
+        <div className="absolute bottom-20 left-20 text-3xl">🌳</div>
+        <div className="absolute bottom-20 right-80 text-2xl">🌲</div>
+
         {clouds.map((cloud, index) => (
           <div
             key={index}

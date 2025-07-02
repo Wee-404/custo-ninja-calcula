@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import AdBanner from '../components/AdBanner';
@@ -6,7 +5,7 @@ import CoursePromo from '../components/CoursePromo';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Trash2, TrendingDown, Trophy } from 'lucide-react';
+import { Plus, Trash2, TrendingDown, Trophy, Zap } from 'lucide-react';
 
 interface Product {
   id: number;
@@ -22,6 +21,17 @@ const CustoBeneficio = () => {
     { id: 2, name: '', price: 0, weight: 0, quantity: 1 },
   ]);
 
+  const quickFillOptions = [
+    { name: 'Lata de Refrigerante', weight: 0.35, examples: '350ml' },
+    { name: 'Garrafa de Refrigerante', weight: 2.0, examples: '2L' },
+    { name: 'Latão de Cerveja', weight: 0.473, examples: '473ml' },
+    { name: 'Garrafa Long Neck', weight: 0.355, examples: '355ml' },
+    { name: 'Pacote de Arroz', weight: 5.0, examples: '5kg' },
+    { name: 'Pacote de Feijão', weight: 1.0, examples: '1kg' },
+    { name: 'Detergente', weight: 0.5, examples: '500ml' },
+    { name: 'Shampoo', weight: 0.4, examples: '400ml' },
+  ];
+
   const addProduct = () => {
     const newId = Math.max(...products.map(p => p.id)) + 1;
     setProducts([...products, { id: newId, name: '', price: 0, weight: 0, quantity: 1 }]);
@@ -36,6 +46,12 @@ const CustoBeneficio = () => {
   const updateProduct = (id: number, field: string, value: number | string) => {
     setProducts(products.map(p =>
       p.id === id ? { ...p, [field]: typeof value === 'number' ? Number(value) : value } : p
+    ));
+  };
+
+  const quickFillProduct = (id: number, option: typeof quickFillOptions[0]) => {
+    setProducts(products.map(p =>
+      p.id === id ? { ...p, name: option.name, weight: option.weight } : p
     ));
   };
 
@@ -88,6 +104,39 @@ const CustoBeneficio = () => {
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         )}
+                      </div>
+
+                      {/* Quick Fill Options */}
+                      <div className="mb-4">
+                        <p className="text-sm text-gray-600 mb-2">Preenchimento rápido:</p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                          {quickFillOptions.slice(0, 4).map((option, idx) => (
+                            <Button
+                              key={idx}
+                              variant="outline"
+                              size="sm"
+                              className="text-xs p-2 h-auto"
+                              onClick={() => quickFillProduct(product.id, option)}
+                            >
+                              <Zap className="h-3 w-3 mr-1" />
+                              {option.name}
+                            </Button>
+                          ))}
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2">
+                          {quickFillOptions.slice(4).map((option, idx) => (
+                            <Button
+                              key={idx + 4}
+                              variant="outline"
+                              size="sm"
+                              className="text-xs p-2 h-auto"
+                              onClick={() => quickFillProduct(product.id, option)}
+                            >
+                              <Zap className="h-3 w-3 mr-1" />
+                              {option.name}
+                            </Button>
+                          ))}
+                        </div>
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
