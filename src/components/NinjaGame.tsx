@@ -12,7 +12,12 @@ interface GameObject {
 }
 
 interface Money extends GameObject {
+  id: number;
   collected: boolean;
+}
+
+interface Obstacle extends GameObject {
+  id: number;
 }
 
 interface CloudObject extends GameObject {
@@ -33,7 +38,7 @@ const NinjaGame = () => {
   const [isJumping, setIsJumping] = useState(false);
   const [jumpCount, setJumpCount] = useState(0);
   const [moneyBags, setMoneyBags] = useState<Money[]>([]);
-  const [obstacles, setObstacles] = useState<GameObject[]>([]);
+  const [obstacles, setObstacles] = useState<Obstacle[]>([]);
   const [clouds, setClouds] = useState<CloudObject[]>([]);
   const [invulnerable, setInvulnerable] = useState(false);
   const [isFalling, setIsFalling] = useState(false);
@@ -80,7 +85,7 @@ const NinjaGame = () => {
         setNinja(prev => ({ ...prev, y: GROUND_Y }));
         setIsJumping(false);
         setJumpCount(0);
-      }, 200);
+      }, 400);
     }
   }, [gameOver, gameStarted, jumpCount, isFalling]);
 
@@ -104,7 +109,6 @@ const NinjaGame = () => {
     setIsJumping(false);
     setJumpCount(0);
     
-    // Animação de queda
     const fallAnimation = setInterval(() => {
       setNinja(prev => {
         const newY = prev.y + 15;
@@ -133,7 +137,7 @@ const NinjaGame = () => {
     });
     
     setInvulnerable(true);
-    setTimeout(() => setInvulnerable(false), 1500);
+    setTimeout(() => setInvulnerable(false), 2000);
   }, [invulnerable, isFalling, makeNinjaFall]);
 
   useEffect(() => {
@@ -159,17 +163,19 @@ const NinjaGame = () => {
     if (!gameStarted || gameOver) return;
 
     const gameLoop = setInterval(() => {
-      // Move objects
+      // Move money bags
       setMoneyBags(prev => prev.map(money => ({
         ...money,
         x: money.x - GAME_SPEED
       })).filter(money => money.x > -50));
 
+      // Move obstacles
       setObstacles(prev => prev.map(obstacle => ({
         ...obstacle,
         x: obstacle.x - GAME_SPEED
       })).filter(obstacle => obstacle.x > -50));
 
+      // Move clouds
       setClouds(prev => prev.map(cloud => ({
         ...cloud,
         x: cloud.x - cloud.speed
@@ -178,7 +184,9 @@ const NinjaGame = () => {
       // Spawn new money bags
       setMoneyBags(prev => {
         if (Math.random() < 0.01 && (prev.length === 0 || prev[prev.length - 1].x < 500)) {
+          const newId = Date.now();
           return [...prev, {
+            id: newId,
             x: 800,
             y: Math.random() < 0.5 ? GROUND_Y - 60 : GROUND_Y - 120,
             width: 30,
@@ -192,7 +200,9 @@ const NinjaGame = () => {
       // Spawn new obstacles
       setObstacles(prev => {
         if (Math.random() < 0.008 && (prev.length === 0 || prev[prev.length - 1].x < 400)) {
+          const newId = Date.now();
           return [...prev, {
+            id: newId,
             x: 800,
             y: GROUND_Y - 30,
             width: 30,
@@ -221,7 +231,7 @@ const NinjaGame = () => {
     return () => clearInterval(gameLoop);
   }, [gameStarted, gameOver]);
 
-  // Separate useEffect for collision detection
+  // Collision detection
   useEffect(() => {
     if (!gameStarted || gameOver) return;
 
@@ -281,14 +291,9 @@ const NinjaGame = () => {
 
         <div className="absolute bottom-0 w-full h-20 bg-gradient-to-t from-green-600 to-green-400"></div>
 
-        {/* Sol */}
         <div className="absolute top-8 right-20 text-4xl">☀️</div>
-        
-        {/* Montanhas */}
         <div className="absolute bottom-20 left-60 text-4xl opacity-80">🏔️</div>
         <div className="absolute bottom-20 right-40 text-3xl opacity-70">⛰️</div>
-
-        {/* Árvores */}
         <div className="absolute bottom-20 left-20 text-3xl">🌳</div>
         <div className="absolute bottom-20 right-80 text-2xl">🌲</div>
 
@@ -320,10 +325,10 @@ const NinjaGame = () => {
           🥷
         </div>
 
-        {moneyBags.map((money, index) => (
+        {moneyBags.map((money) => (
           !money.collected && (
             <div
-              key={index}
+              key={money.id}
               className="absolute text-2xl animate-bounce"
               style={{
                 left: money.x,
@@ -337,9 +342,9 @@ const NinjaGame = () => {
           )
         ))}
 
-        {obstacles.map((obstacle, index) => (
+        {obstacles.map((obstacle) => (
           <div
-            key={index}
+            key={obstacle.id}
             className="absolute text-2xl"
             style={{
               left: obstacle.x,

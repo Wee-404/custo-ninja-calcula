@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
@@ -5,14 +6,14 @@ import AdBanner from '../components/AdBanner';
 import CoursePromo from '../components/CoursePromo';
 import NinjaGame from '../components/NinjaGame';
 import NewsletterSubscription from '../components/NewsletterSubscription';
-import { Calculator, TrendingUp, Users, Beer, PiggyBank, Car, DollarSign, GraduationCap, ArrowRight } from 'lucide-react';
+import { Calculator, TrendingUp, Users, Beer, PiggyBank, Car, DollarSign, GraduationCap, ArrowRight, CheckCircle, Target, Zap } from 'lucide-react';
 
 const Index = () => {
   const ferramentasDestaque = [
     {
       title: 'Custo-Benefício',
       description: 'Compare produtos e encontre a melhor opção de compra',
-      icon: <TrendingUp className="h-6 w-6" />,
+      icon: <TrendingUp className="h-8 w-8" />,
       path: '/custo-beneficio',
       color: 'from-blue-500 to-blue-600',
       popular: true,
@@ -20,7 +21,7 @@ const Index = () => {
     {
       title: 'Divisão de Conta',
       description: 'Divida contas de restaurante entre amigos facilmente',
-      icon: <Users className="h-6 w-6" />,
+      icon: <Users className="h-8 w-8" />,
       path: '/divisao-conta',
       color: 'from-green-500 to-green-600',
       popular: true,
@@ -28,7 +29,7 @@ const Index = () => {
     {
       title: 'Educação Financeira',
       description: 'Organize suas finanças com a regra 50-30-20',
-      icon: <GraduationCap className="h-6 w-6" />,
+      icon: <GraduationCap className="h-8 w-8" />,
       path: '/educacao-financeira',
       color: 'from-purple-500 to-purple-600',
       popular: true,
@@ -72,7 +73,7 @@ const Index = () => {
       <section className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white">
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
               🥷 Custo Ninja
             </h1>
             <p className="text-xl md:text-2xl mb-6 text-blue-100">
@@ -89,11 +90,57 @@ const Index = () => {
                 Começar Agora <ArrowRight className="h-5 w-5" />
               </Link>
               <a
-                href="#ferramentas"
+                href="#diagnostico"
                 className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"
               >
-                Ver Todas as Ferramentas
+                Diagnóstico Gratuito
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Diagnóstico Financeiro */}
+      <section className="py-20 bg-gradient-to-r from-emerald-50 to-blue-50" id="diagnostico">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border-2 border-emerald-200">
+              <div className="bg-emerald-100 rounded-full p-4 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                <Target className="h-10 w-10 text-emerald-600" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
+                🎯 Faça um Diagnóstico da Sua Vida Financeira
+              </h2>
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                Descubra como está sua saúde financeira e receba um plano personalizado para organizar seu dinheiro usando a regra 50-30-20
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200">
+                  <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-3" />
+                  <h3 className="font-bold text-gray-800 mb-2">Análise Completa</h3>
+                  <p className="text-sm text-gray-600">Avalie seus gastos, receitas e hábitos financeiros</p>
+                </div>
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+                  <Zap className="h-8 w-8 text-blue-600 mx-auto mb-3" />
+                  <h3 className="font-bold text-gray-800 mb-2">Resultados Rápidos</h3>
+                  <p className="text-sm text-gray-600">Receba feedback imediato sobre sua situação</p>
+                </div>
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl border border-purple-200">
+                  <Target className="h-8 w-8 text-purple-600 mx-auto mb-3" />
+                  <h3 className="font-bold text-gray-800 mb-2">Plano Personalizado</h3>
+                  <p className="text-sm text-gray-600">Estratégias customizadas para seus objetivos</p>
+                </div>
+              </div>
+
+              <Link
+                to="/educacao-financeira"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-blue-500 text-white px-10 py-5 rounded-xl font-bold text-lg hover:from-emerald-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
+                <GraduationCap className="h-6 w-6" />
+                Começar Diagnóstico Grátis
+                <ArrowRight className="h-6 w-6" />
+              </Link>
             </div>
           </div>
         </div>
@@ -111,20 +158,20 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
             {ferramentasDestaque.map((ferramenta, index) => (
               <Link
                 key={index}
                 to={ferramenta.path}
-                className="group bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-blue-200"
+                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 border-2 border-transparent hover:border-blue-200 overflow-hidden"
               >
                 <div className="p-8 text-center">
-                  <div className={`bg-gradient-to-r ${ferramenta.color} rounded-full p-4 w-fit mx-auto mb-4 text-white group-hover:scale-110 transition-transform`}>
+                  <div className={`bg-gradient-to-r ${ferramenta.color} rounded-2xl p-6 w-20 h-20 mx-auto mb-6 text-white group-hover:scale-110 transition-transform duration-300 flex items-center justify-center`}>
                     {ferramenta.icon}
                   </div>
                   {ferramenta.popular && (
-                    <span className="inline-block bg-red-500 text-white text-xs px-3 py-1 rounded-full mb-3 font-semibold">
-                      POPULAR
+                    <span className="inline-block bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs px-4 py-2 rounded-full mb-4 font-bold shadow-md">
+                      ⭐ POPULAR
                     </span>
                   )}
                   <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors">
@@ -141,7 +188,7 @@ const Index = () => {
           <div className="text-center">
             <Link
               to="/utilitarios-financeiros"
-              className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Ver Todas as Ferramentas <ArrowRight className="h-5 w-5" />
             </Link>
@@ -183,9 +230,9 @@ const Index = () => {
               <Link
                 key={index}
                 to={ferramenta.path}
-                className="group bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 text-center border hover:border-blue-200"
+                className="group bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 text-center border hover:border-blue-200 transform hover:-translate-y-1"
               >
-                <div className={`bg-gradient-to-r ${ferramenta.color} rounded-lg p-3 w-fit mx-auto mb-4 text-white group-hover:scale-105 transition-transform`}>
+                <div className={`bg-gradient-to-r ${ferramenta.color} rounded-lg p-4 w-fit mx-auto mb-4 text-white group-hover:scale-110 transition-transform duration-300`}>
                   {ferramenta.icon}
                 </div>
                 <h3 className="text-lg font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
@@ -224,7 +271,7 @@ const Index = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center p-6">
+              <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
                 <div className="bg-blue-100 rounded-full p-4 w-fit mx-auto mb-4">
                   <Calculator className="h-8 w-8 text-blue-600" />
                 </div>
@@ -234,7 +281,7 @@ const Index = () => {
                 </p>
               </div>
 
-              <div className="text-center p-6">
+              <div className="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
                 <div className="bg-green-100 rounded-full p-4 w-fit mx-auto mb-4">
                   <TrendingUp className="h-8 w-8 text-green-600" />
                 </div>
@@ -244,7 +291,7 @@ const Index = () => {
                 </p>
               </div>
 
-              <div className="text-center p-6">
+              <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl">
                 <div className="bg-purple-100 rounded-full p-4 w-fit mx-auto mb-4">
                   <Users className="h-8 w-8 text-purple-600" />
                 </div>

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import AdBanner from '../components/AdBanner';
@@ -5,6 +6,7 @@ import CoursePromo from '../components/CoursePromo';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, Trash2, TrendingDown, Trophy } from 'lucide-react';
 
 interface Product {
@@ -13,17 +15,30 @@ interface Product {
   price: number;
   weight: number;
   quantity: number;
+  unit: string;
 }
 
 const CustoBeneficio = () => {
   const [products, setProducts] = useState<Product[]>([
-    { id: 1, name: '', price: 0, weight: 0, quantity: 1 },
-    { id: 2, name: '', price: 0, weight: 0, quantity: 1 },
+    { id: 1, name: '', price: 0, weight: 0, quantity: 1, unit: 'kg' },
+    { id: 2, name: '', price: 0, weight: 0, quantity: 1, unit: 'kg' },
   ]);
+
+  const unidadesMedida = [
+    { value: 'kg', label: 'Kg (quilograma)' },
+    { value: 'g', label: 'g (grama)' },
+    { value: 'l', label: 'L (litro)' },
+    { value: 'ml', label: 'ml (mililitro)' },
+    { value: 'un', label: 'Unidade' },
+    { value: 'cx', label: 'Caixa' },
+    { value: 'pct', label: 'Pacote' },
+    { value: 'm', label: 'm (metro)' },
+    { value: 'cm', label: 'cm (centímetro)' },
+  ];
 
   const addProduct = () => {
     const newId = Math.max(...products.map(p => p.id)) + 1;
-    setProducts([...products, { id: newId, name: '', price: 0, weight: 0, quantity: 1 }]);
+    setProducts([...products, { id: newId, name: '', price: 0, weight: 0, quantity: 1, unit: 'kg' }]);
   };
 
   const removeProduct = (id: number) => {
@@ -38,17 +53,49 @@ const CustoBeneficio = () => {
     ));
   };
 
+  const convertToBaseUnit = (weight: number, unit: string): number => {
+    switch (unit) {
+      case 'g': return weight / 1000; // converter para kg
+      case 'ml': return weight / 1000; // converter para litros
+      case 'cm': return weight / 100; // converter para metros
+      case 'kg':
+      case 'l':
+      case 'm':
+      case 'un':
+      case 'cx':
+      case 'pct':
+      default:
+        return weight;
+    }
+  };
+
+  const getUnitLabel = (unit: string): string => {
+    const unitMap: { [key: string]: string } = {
+      'kg': 'kg',
+      'g': 'kg',
+      'l': 'L',
+      'ml': 'L',
+      'un': 'unidade',
+      'cx': 'caixa',
+      'pct': 'pacote',
+      'm': 'm',
+      'cm': 'm'
+    };
+    return unitMap[unit] || unit;
+  };
+
   const calculateCostBenefit = (product: Product) => {
     if (product.weight > 0 && product.price > 0 && product.quantity > 0) {
-      return (product.price / (product.weight * product.quantity));
+      const baseWeight = convertToBaseUnit(product.weight, product.unit);
+      return (product.price / (baseWeight * product.quantity));
     }
     return 0;
   };
 
   const productsWithCost = products
     .filter(p => p.price > 0 && p.weight > 0)
-    .map(p => ({ ...p, costPerKg: calculateCostBenefit(p) }))
-    .sort((a, b) => a.costPerKg - b.costPerKg);
+    .map(p => ({ ...p, costPerUnit: calculateCostBenefit(p) }))
+    .sort((a, b) => a.costPerUnit - b.costPerUnit);
 
   const bestOption = productsWithCost[0];
 
@@ -61,7 +108,7 @@ const CustoBeneficio = () => {
               🏆 Calculadora de Custo-Benefício
             </h1>
             <p className="text-xl text-gray-600">
-              Compare produtos e encontre a melhor opção pelo menor preço por kg
+              Compare produtos e encontre a melhor opção pelo menor preço por unidade
             </p>
           </div>
 
@@ -102,13 +149,31 @@ const CustoBeneficio = () => {
                           value={product.price || ''}
                           onChange={(e) => updateProduct(product.id, 'price', Number(e.target.value))}
                         />
-                        <Input
-                          type="number"
-                          step="0.01"
-                          placeholder="Peso (kg)"
-                          value={product.weight || ''}
-                          onChange={(e) => updateProduct(product.id, 'weight', Number(e.target.value))}
-                        />
+                        <div className="flex gap-2">
+                          <Input
+                            type="number"
+                            step="0.01"
+                            placeholder="Peso/Volume"
+                            value={product.weight || ''}
+                            onChange={(e) => updateProduct(product.id, 'weight', Number(e.target.value))}
+                            className="flex-1"
+                          />
+                          <Select
+                            value={product.unit}
+                            onValueChange={(value) => updateProduct(product.id, 'unit', value)}
+                          >
+                            <SelectTrigger className="w-32">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {unidadesMedida.map((unidade) => (
+                                <SelectItem key={unidade.value} value={unidade.value}>
+                                  {unidade.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
                         <Input
                           type="number"
                           placeholder="Quantidade"
@@ -120,7 +185,7 @@ const CustoBeneficio = () => {
                       {product.price > 0 && product.weight > 0 && (
                         <div className="mt-3 text-center">
                           <span className="text-lg font-bold text-blue-600">
-                            R$ {calculateCostBenefit(product).toFixed(2)} por kg
+                            R$ {calculateCostBenefit(product).toFixed(2)} por {getUnitLabel(product.unit)}
                           </span>
                         </div>
                       )}
@@ -148,10 +213,10 @@ const CustoBeneficio = () => {
                         {bestOption.name || `Produto ${bestOption.id}`}
                       </h3>
                       <p className="text-3xl font-bold text-green-600 mb-2">
-                        R$ {bestOption.costPerKg.toFixed(2)} por kg
+                        R$ {bestOption.costPerUnit.toFixed(2)} por {getUnitLabel(bestOption.unit)}
                       </p>
                       <p className="text-gray-600 text-sm">
-                        Preço total: R$ {bestOption.price.toFixed(2)} para {(bestOption.weight * bestOption.quantity).toFixed(2)}kg
+                        Preço total: R$ {bestOption.price.toFixed(2)} para {(convertToBaseUnit(bestOption.weight, bestOption.unit) * bestOption.quantity).toFixed(2)} {getUnitLabel(bestOption.unit)}
                       </p>
                     </div>
                   </CardContent>
@@ -178,7 +243,7 @@ const CustoBeneficio = () => {
                             <span className={`font-bold ${
                               index === 0 ? 'text-green-600' : 'text-gray-600'
                             }`}>
-                              R$ {product.costPerKg.toFixed(2)}/kg
+                              R$ {product.costPerUnit.toFixed(2)}/{getUnitLabel(product.unit)}
                             </span>
                           </div>
                         </div>
@@ -202,7 +267,7 @@ const CustoBeneficio = () => {
                     <TrendingDown className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                     <div>
                       <h4 className="font-semibold text-sm">Compare Sempre</h4>
-                      <p className="text-xs text-gray-600">Calcule o preço por kg, litro ou unidade</p>
+                      <p className="text-xs text-gray-600">Calcule o preço por unidade de medida</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
