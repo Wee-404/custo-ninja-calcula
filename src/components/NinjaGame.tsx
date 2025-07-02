@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -35,6 +36,8 @@ const NinjaGame = () => {
   const [obstacles, setObstacles] = useState<GameObject[]>([]);
   const [clouds, setClouds] = useState<CloudObject[]>([]);
   const [invulnerable, setInvulnerable] = useState(false);
+  const [isFalling, setIsFalling] = useState(false);
+  const [showCongratulations, setShowCongratulations] = useState(false);
 
   const GROUND_Y = 200;
   const JUMP_HEIGHT = 80;
@@ -53,6 +56,8 @@ const NinjaGame = () => {
     setObstacles([]);
     setClouds([]);
     setInvulnerable(false);
+    setIsFalling(false);
+    setShowCongratulations(false);
   }, []);
 
   const startGame = useCallback(() => {
@@ -61,7 +66,7 @@ const NinjaGame = () => {
   }, [resetGame]);
 
   const jump = useCallback(() => {
-    if (!gameOver && gameStarted && jumpCount < MAX_JUMPS) {
+    if (!gameOver && gameStarted && jumpCount < MAX_JUMPS && !isFalling) {
       setIsJumping(true);
       const newJumpCount = jumpCount + 1;
       setJumpCount(newJumpCount);
@@ -77,7 +82,7 @@ const NinjaGame = () => {
         setJumpCount(0);
       }, 200);
     }
-  }, [gameOver, gameStarted, jumpCount]);
+  }, [gameOver, gameStarted, jumpCount, isFalling]);
 
   const handleGameClick = useCallback(() => {
     if (!gameStarted) {
@@ -94,8 +99,29 @@ const NinjaGame = () => {
            obj1.y + obj1.height > obj2.y;
   }, []);
 
+  const makeNinjaFall = useCallback(() => {
+    setIsFalling(true);
+    setIsJumping(false);
+    setJumpCount(0);
+    
+    // Animação de queda
+    const fallAnimation = setInterval(() => {
+      setNinja(prev => {
+        const newY = prev.y + 15;
+        if (newY >= GROUND_Y) {
+          clearInterval(fallAnimation);
+          setIsFalling(false);
+          return { ...prev, y: GROUND_Y };
+        }
+        return { ...prev, y: newY };
+      });
+    }, 30);
+  }, []);
+
   const loseLife = useCallback(() => {
-    if (invulnerable) return;
+    if (invulnerable || isFalling) return;
+    
+    makeNinjaFall();
     
     setLives(prev => {
       const newLives = prev - 1;
@@ -108,7 +134,7 @@ const NinjaGame = () => {
     
     setInvulnerable(true);
     setTimeout(() => setInvulnerable(false), 1500);
-  }, [invulnerable]);
+  }, [invulnerable, isFalling, makeNinjaFall]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -121,6 +147,13 @@ const NinjaGame = () => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [handleGameClick]);
+
+  useEffect(() => {
+    if (score >= 200 && !showCongratulations) {
+      setShowCongratulations(true);
+      setTimeout(() => setShowCongratulations(false), 3000);
+    }
+  }, [score, showCongratulations]);
 
   useEffect(() => {
     if (!gameStarted || gameOver) return;
@@ -269,13 +302,13 @@ const NinjaGame = () => {
         ))}
 
         <div
-          className={`absolute text-4xl transition-all duration-200 ${invulnerable ? 'animate-pulse opacity-50' : ''}`}
+          className={`absolute text-4xl transition-all duration-200 ${invulnerable ? 'animate-pulse opacity-50' : ''} ${isFalling ? 'animate-bounce' : ''}`}
           style={{
             left: ninja.x,
             bottom: 280 - ninja.y - ninja.height,
             width: ninja.width,
             height: ninja.height,
-            transform: isJumping ? 'translateY(-10px) rotate(15deg)' : 'translateY(0) rotate(0deg)',
+            transform: isJumping ? 'translateY(-10px) rotate(15deg)' : isFalling ? 'rotate(180deg)' : 'translateY(0) rotate(0deg)',
           }}
         >
           🥷
@@ -312,6 +345,16 @@ const NinjaGame = () => {
             🪨
           </div>
         ))}
+
+        {showCongratulations && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30">
+            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-8 rounded-lg text-center animate-pulse">
+              <h3 className="text-3xl font-bold text-white mb-4">🎉 PARABÉNS! 🎉</h3>
+              <p className="text-xl text-white mb-2">Você coletou 20 moedas!</p>
+              <p className="text-lg text-yellow-100">Continue coletando para mais aventuras!</p>
+            </div>
+          </div>
+        )}
 
         {gameOver && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20">
