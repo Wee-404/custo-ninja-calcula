@@ -1,11 +1,9 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import AdBanner from '../components/AdBanner';
 import CoursePromo from '../components/CoursePromo';
 import NinjaGame from '../components/NinjaGame';
-import NewsletterSubscription from '../components/NewsletterSubscription';
 import { Calculator, TrendingUp, Users, Beer, PiggyBank, Car, DollarSign, GraduationCap, ArrowRight, CheckCircle, Target, Zap } from 'lucide-react';
 
 const Index = () => {
@@ -83,17 +81,11 @@ const Index = () => {
               Simplifique cálculos do dia a dia: custo-benefício, divisão de contas, investimentos e muito mais
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/custo-beneficio"
-                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors inline-flex items-center gap-2"
-              >
-                Começar Agora <ArrowRight className="h-5 w-5" />
-              </Link>
               <a
                 href="#diagnostico"
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"
+                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors inline-flex items-center gap-2"
               >
-                Diagnóstico Gratuito
+                Diagnóstico Gratuito <ArrowRight className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -243,15 +235,6 @@ const Index = () => {
                 </p>
               </Link>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <NewsletterSubscription />
           </div>
         </div>
       </section>
