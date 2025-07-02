@@ -149,7 +149,7 @@ const NinjaGame = () => {
   }, [handleGameClick]);
 
   useEffect(() => {
-    if (score >= 200 && !showCongratulations) {
+    if (score >= 30 && !showCongratulations) {
       setShowCongratulations(true);
       setTimeout(() => setShowCongratulations(false), 3000);
     }
@@ -216,7 +216,17 @@ const NinjaGame = () => {
         return prev;
       });
 
-      // Check collisions
+    }, 16);
+
+    return () => clearInterval(gameLoop);
+  }, [gameStarted, gameOver]);
+
+  // Separate useEffect for collision detection
+  useEffect(() => {
+    if (!gameStarted || gameOver) return;
+
+    const collisionCheck = setInterval(() => {
+      // Check money collection
       setMoneyBags(prevMoney => {
         return prevMoney.map(money => {
           if (!money.collected && checkCollision(ninja, money)) {
@@ -228,19 +238,15 @@ const NinjaGame = () => {
       });
 
       // Check obstacle collisions
-      setObstacles(prevObstacles => {
-        prevObstacles.forEach(obstacle => {
-          if (!invulnerable && checkCollision(ninja, obstacle)) {
-            loseLife();
-          }
-        });
-        return prevObstacles;
+      obstacles.forEach(obstacle => {
+        if (!invulnerable && !isFalling && checkCollision(ninja, obstacle)) {
+          loseLife();
+        }
       });
-
     }, 16);
 
-    return () => clearInterval(gameLoop);
-  }, [gameStarted, gameOver, ninja, checkCollision, loseLife, invulnerable]);
+    return () => clearInterval(collisionCheck);
+  }, [gameStarted, gameOver, ninja, obstacles, checkCollision, loseLife, invulnerable, isFalling]);
 
   if (!gameStarted) {
     return (
@@ -350,7 +356,7 @@ const NinjaGame = () => {
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30">
             <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-8 rounded-lg text-center animate-pulse">
               <h3 className="text-3xl font-bold text-white mb-4">🎉 PARABÉNS! 🎉</h3>
-              <p className="text-xl text-white mb-2">Você coletou 20 moedas!</p>
+              <p className="text-xl text-white mb-2">Você coletou 3 sacos de dinheiro!</p>
               <p className="text-lg text-yellow-100">Continue coletando para mais aventuras!</p>
             </div>
           </div>

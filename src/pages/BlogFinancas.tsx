@@ -12,315 +12,281 @@ const BlogFinancas = () => {
   const featuredPosts = [
     {
       id: 1,
-      title: "Minha Jornada: Como Saí de R$ 15 mil em Dívidas em 18 Meses",
-      excerpt: "A história real de Marina, de 28 anos, que conseguiu quitar todas as suas dívidas e ainda formar uma reserva de emergência. Spoiler: não foi fácil, mas foi possível!",
-      category: "História Real",
+      title: "Regra 50-30-20: Como Organizar Seu Orçamento de Forma Simples",
+      excerpt: "Aprenda a aplicar a regra mais famosa de organização financeira: 50% necessidades, 30% desejos e 20% poupança. Guia prático com exemplos.",
+      category: "Planejamento",
       date: "2 de Janeiro, 2025",
-      author: "Marina Santos",
-      readTime: "12 min",
-      image: "💪",
-      likes: 847,
-      comments: 156,
+      author: "Equipe Financeira",
+      readTime: "8 min",
+      image: "📊",
+      likes: 234,
+      comments: 45,
       content: `
-        <div class="bg-blue-50 p-4 rounded-lg mb-6">
-          <p><strong>📝 Nota da autora:</strong> Oi, pessoal! Sou a Marina, tenho 28 anos e trabalho como designer. Essa é minha história real de como consegui sair do vermelho. Espero que inspire vocês!</p>
-        </div>
-
-        <h3>🎯 Como tudo começou</h3>
-        <p>Em 2023, eu estava com R$ 15.000 em dívidas divididas entre cartão de crédito, financiamento do carro e um empréstimo que fiz para uma emergência familiar. Dormia mal, vivia ansiosa e evitava olhar as notificações do banco.</p>
+        <h3>🎯 O que é a Regra 50-30-20?</h3>
+        <p>A regra 50-30-20 é um método simples para dividir sua renda líquida (após impostos) em três categorias principais:</p>
         
-        <p><em>"O pior momento foi quando meu cartão foi negado no supermercado na frente de todo mundo. Ali eu decidi: chega!"</em></p>
-
-        <h3>📊 Meu plano de ação (que você pode copiar)</h3>
-        
-        <h4>1. Mapeei tudo (mesmo com medo)</h4>
         <ul>
-          <li>Cartão de crédito: R$ 8.500 (juros de 12% ao mês! 😱)</li>
-          <li>Financiamento do carro: R$ 4.200</li>
-          <li>Empréstimo pessoal: R$ 2.300</li>
+          <li><strong>50% - Necessidades:</strong> Gastos essenciais como moradia, alimentação, transporte, contas básicas</li>
+          <li><strong>30% - Desejos:</strong> Entretenimento, hobbies, restaurantes, compras não essenciais</li>
+          <li><strong>20% - Poupança e Investimentos:</strong> Reserva de emergência, aposentadoria, objetivos financeiros</li>
         </ul>
-        
-        <h4>2. Priorei as dívidas mais caras</h4>
-        <p>Foquei primeiro no cartão de crédito. Era a dívida que mais "comia" meu dinheiro todo mês.</p>
-        
-        <h4>3. Aumentei minha renda</h4>
-        <p>Comecei a fazer freelances de design nos finais de semana. Não foi fácil abrir mão do descanso, mas era temporário.</p>
-        
-        <h4>4. Cortei gastos (mas sem neura)</h4>
-        <p>Cancelei Netflix e Spotify por 6 meses, troquei academia por corrida no parque, e comecei a cozinhar mais em casa. Mas me permiti um cafézinho especial por semana - saúde mental também importa!</p>
 
-        <h3>💝 O que aprendi no processo</h3>
-        <p>O mais difícil não foi o dinheiro, foi o psicológico. Tive que aprender a perdoar meus erros passados e focar no futuro. E descobri que pequenas vitórias motivam muito!</p>
-        
-        <div class="bg-green-50 p-4 rounded-lg mt-6">
-          <p><strong>✨ Resultado:</strong> Hoje tenho R$ 5.000 na poupança e durmo tranquila. Se eu consegui, você também consegue! 💚</p>
-        </div>
+        <h3>💰 Exemplo Prático</h3>
+        <p>Para uma renda líquida de R$ 4.000:</p>
+        <ul>
+          <li>R$ 2.000 (50%) - Necessidades: aluguel, mercado, transporte, contas</li>
+          <li>R$ 1.200 (30%) - Desejos: lazer, restaurantes, roupas</li>
+          <li>R$ 800 (20%) - Poupança: reserva de emergência, investimentos</li>
+        </ul>
+
+        <h3>🔧 Como Implementar</h3>
+        <ol>
+          <li><strong>Calcule sua renda líquida mensal</strong></li>
+          <li><strong>Liste todos os gastos essenciais</strong> (necessidades)</li>
+          <li><strong>Defina um valor fixo para poupança</strong> (pague-se primeiro)</li>
+          <li><strong>Use o restante para desejos</strong> de forma consciente</li>
+        </ol>
+
+        <h3>⚖️ Ajustes Necessários</h3>
+        <p>A regra é um ponto de partida. Ajuste conforme sua realidade:</p>
+        <ul>
+          <li>Se os gastos essenciais passam de 50%, corte desejos temporariamente</li>
+          <li>Se consegue poupar mais de 20%, acelere seus objetivos</li>
+          <li>Para rendas baixas, comece com 60-30-10 e evolua gradualmente</li>
+        </ul>
       `
     },
     {
       id: 2,
-      title: "Por Que Parei de Seguir Influencers de Investimento (E Você Deveria Considerar Também)",
-      excerpt: "Reflexão honesta sobre a pressão das redes sociais para investir e como encontrei meu próprio caminho financeiro sem FOMO.",
-      category: "Reflexão",
+      title: "Tesouro Direto: Guia Completo para Iniciantes",
+      excerpt: "Tudo que você precisa saber sobre o investimento mais seguro do Brasil: tipos de títulos, como investir e estratégias práticas.",
+      category: "Investimentos",
       date: "30 de Dezembro, 2024",
-      author: "João Oliveira",
-      readTime: "8 min",
-      image: "🤔",
-      likes: 523,
+      author: "Equipe Investimentos",
+      readTime: "12 min",
+      image: "🏛️",
+      likes: 567,
       comments: 89,
       content: `
-        <p>Confesso: já fui viciado em stories de "gurus" financeiros. Todo dia via alguém mostrando os milhões que ganhou com cripto, ações ou sei lá o quê. E eu lá, com meus R$ 500 na poupança, me sentindo um fracasso.</p>
+        <h3>🏛️ O que é o Tesouro Direto?</h3>
+        <p>O Tesouro Direto é um programa do governo federal que permite pessoas físicas comprarem títulos públicos pela internet. É considerado o investimento mais seguro do país.</p>
 
-        <h3>🎭 A pressão das redes sociais</h3>
-        <p>Sabe aquela sensação de que todo mundo está ficando rico menos você? Pois é. Eu vivia com FOMO (fear of missing out) financeiro. Resultado: fiz várias besteiras:</p>
+        <h3>📈 Tipos de Títulos</h3>
+        
+        <h4>Tesouro Selic (LFT)</h4>
         <ul>
-          <li>Comprei criptomoedas que nem sabia o que eram</li>
-          <li>Entrei em day trade sem conhecimento</li>
-          <li>Perdi quase R$ 2.000 seguindo "dicas quentes"</li>
+          <li><strong>Rendimento:</strong> Acompanha a taxa Selic</li>
+          <li><strong>Vencimento:</strong> 2029</li>
+          <li><strong>Ideal para:</strong> Reserva de emergência, liquidez</li>
+          <li><strong>Risco:</strong> Baixíssimo</li>
         </ul>
 
-        <h3>💡 Minha mudança de mindset</h3>
-        <p>O que me salvou foi entender que:</p>
+        <h4>Tesouro Prefixado (LTN)</h4>
         <ul>
-          <li><strong>Cada pessoa tem sua realidade:</strong> O cara que ganha R$ 50k não vive a mesma vida que eu</li>
-          <li><strong>Redes sociais mentem:</strong> Ninguém posta as perdas, só os ganhos</li>
-          <li><strong>Devagar e sempre:</strong> Prefiro ganhar 10% ao ano com segurança que tentar 100% e perder tudo</li>
+          <li><strong>Rendimento:</strong> Taxa fixa definida na compra</li>
+          <li><strong>Vencimentos:</strong> 2027, 2031</li>
+          <li><strong>Ideal para:</strong> Objetivos de médio prazo</li>
+          <li><strong>Risco:</strong> Baixo a moderado</li>
         </ul>
 
-        <h3>🏗️ Minha estratégia atual (simples e funciona)</h3>
-        <p>Hoje invisto assim:</p>
+        <h4>Tesouro IPCA+ (NTN-B)</h4>
         <ul>
-          <li>40% Tesouro Direto (segurança em primeiro lugar)</li>
-          <li>30% Fundos de índice (diversificação automática)</li>
-          <li>20% CDBs (liquidez para emergências)</li>
-          <li>10% Ações individuais (só empresas que entendo)</li>
+          <li><strong>Rendimento:</strong> IPCA + taxa prefixada</li>
+          <li><strong>Vencimentos:</strong> 2029, 2035, 2045</li>
+          <li><strong>Ideal para:</strong> Aposentadoria, longo prazo</li>
+          <li><strong>Risco:</strong> Baixo</li>
         </ul>
 
-        <p><em>Não é glamouroso, não vou ficar rico do dia para a noite, mas durmo tranquilo. E isso não tem preço! 😴</em></p>
+        <h3>💻 Como Investir</h3>
+        <ol>
+          <li><strong>Abra conta em uma corretora</strong> habilitada</li>
+          <li><strong>Transfira dinheiro</strong> para a conta da corretora</li>
+          <li><strong>Acesse a plataforma</strong> de investimentos</li>
+          <li><strong>Escolha o título</strong> e o valor</li>
+          <li><strong>Confirme a compra</strong></li>
+        </ol>
+
+        <h3>💡 Estratégias Práticas</h3>
+        <ul>
+          <li><strong>Escada de vencimentos:</strong> Compre títulos com datas diferentes</li>
+          <li><strong>Reinvestimento:</strong> Reinvista os juros automaticamente</li>
+          <li><strong>Diversificação:</strong> Combine diferentes tipos de títulos</li>
+        </ul>
+
+        <h3>⚠️ Custos e Tributação</h3>
+        <ul>
+          <li><strong>Taxa de custódia:</strong> 0,25% ao ano</li>
+          <li><strong>IR:</strong> 22,5% até 6 meses, 15% acima de 2 anos</li>
+          <li><strong>IOF:</strong> Aplicável apenas nos primeiros 30 dias</li>
+        </ul>
       `
     },
     {
       id: 3,
-      title: "Orçamento Familiar com 3 Filhos: Como Sobrevivemos com R$ 4.500/mês",
-      excerpt: "Dicas práticas de uma família real que consegue viver dignamente, pagar todas as contas e ainda guardar dinheiro para o futuro.",
-      category: "Família",
+      title: "Como Quitar Dívidas: Método Bola de Neve vs Avalanche",
+      excerpt: "Duas estratégias comprovadas para sair das dívidas. Descubra qual método funciona melhor para seu perfil financeiro.",
+      category: "Dívidas",
       date: "28 de Dezembro, 2024",
-      author: "Ana e Carlos Pereira",
-      readTime: "15 min",
-      image: "👨‍👩‍👧‍👦",
-      likes: 1234,
-      comments: 267,
+      author: "Especialista em Dívidas",
+      readTime: "10 min",
+      image: "❄️",
+      likes: 432,
+      comments: 67,
       content: `
-        <div class="bg-yellow-50 p-4 rounded-lg mb-6">
-          <p><strong>👋 Oi! Somos Ana e Carlos</strong>, casados há 12 anos, pais da Sofia (9), do Miguel (6) e da pequena Laura (3). Vivemos em Curitiba e nossa renda familiar é de R$ 4.500. Sim, é apertado, mas dá sim!</p>
-        </div>
-
-        <h3>💰 Como dividimos nosso orçamento</h3>
-        <div class="bg-gray-50 p-4 rounded-lg">
-          <ul>
-            <li><strong>Moradia (R$ 1.350 - 30%):</strong> Aluguel, condomínio, água, luz</li>
-            <li><strong>Alimentação (R$ 900 - 20%):</strong> Mercado, feira, gás</li>
-            <li><strong>Transporte (R$ 450 - 10%):</strong> Ônibus, uber eventual</li>
-            <li><strong>Crianças (R$ 675 - 15%):</strong> Escola, roupas, remédios</li>
-            <li><strong>Reserva (R$ 450 - 10%):</strong> Emergência e sonhos</li>
-            <li><strong>Pessoal (R$ 675 - 15%):</strong> Lazer, presentes, extras</li>
-          </ul>
-        </div>
-
-        <h3>🛒 Nossas estratégias de economia</h3>
+        <h3>🎯 Método Bola de Neve</h3>
+        <p><strong>Estratégia:</strong> Quite primeiro as dívidas de menor valor, independente dos juros.</p>
         
-        <h4>No mercado:</h4>
-        <ul>
-          <li>Feira aos sábados (50% mais barato que supermercado)</li>
-          <li>Lista de compras religiosa (zero impulso)</li>
-          <li>Marca própria em produtos básicos</li>
-          <li>Compras em atacado para não perecíveis</li>
-        </ul>
-
-        <h4>Com as crianças:</h4>
-        <ul>
-          <li>Roupas: brechós e promoções de fim de estação</li>
-          <li>Brinquedos: aniversário e Natal (mas com limite)</li>
-          <li>Diversão: parques públicos, biblioteca, praia</li>
-        </ul>
-
-        <h3>💡 Dicas que funcionam DE VERDADE</h3>
+        <h4>Como funciona:</h4>
         <ol>
-          <li><strong>Cozinhamos em casa:</strong> Economizamos R$ 600/mês vs delivery</li>
-          <li><strong>Mesada familiar:</strong> Cada um tem R$ 50/mês para gastos bobos</li>
-          <li><strong>Mês do "não gasto":</strong> Uma vez por trimestre, só o essencial</li>
-          <li><strong>Planilha visual:</strong> Gráficos que as crianças entendem</li>
+          <li>Liste todas as dívidas do menor para o maior valor</li>
+          <li>Pague o mínimo de todas as dívidas</li>
+          <li>Use todo dinheiro extra para quitar a menor dívida</li>
+          <li>Quando quitada, use o valor dessa + extra para a próxima</li>
         </ol>
 
-        <h3>🎯 Nossos sonhos e metas</h3>
-        <p>Todo mundo precisa sonhar, né? Os nossos:</p>
+        <h4>Vantagens:</h4>
         <ul>
-          <li>2025: Financiar um carro usado</li>
-          <li>2027: Entrada da casa própria</li>
-          <li>2030: Faculdade das crianças garantida</li>
+          <li>Motivação psicológica com vitórias rápidas</li>
+          <li>Reduz o número de credores rapidamente</li>
+          <li>Funciona bem para quem tem dificuldade de manter disciplina</li>
         </ul>
 
-        <div class="bg-green-50 p-4 rounded-lg mt-6">
-          <p><strong>💚 Mensagem final:</strong> Não é sobre quanto você ganha, é sobre como você usa o que tem. Com planejamento, carinho e muita conversa, nossa família é rica do jeito que importa! ✨</p>
-        </div>
+        <h3>🏔️ Método Avalanche</h3>
+        <p><strong>Estratégia:</strong> Quite primeiro as dívidas com maiores juros.</p>
+        
+        <h4>Como funciona:</h4>
+        <ol>
+          <li>Liste todas as dívidas da maior para a menor taxa de juros</li>
+          <li>Pague o mínimo de todas as dívidas</li>
+          <li>Use todo dinheiro extra para quitar a dívida com maior juro</li>
+          <li>Repita até quitar tudo</li>
+        </ol>
+
+        <h4>Vantagens:</h4>
+        <ul>
+          <li>Matematicamente mais eficiente</li>
+          <li>Economiza mais dinheiro em juros</li>
+          <li>Reduz o tempo total de pagamento</li>
+        </ul>
+
+        <h3>⚖️ Qual Escolher?</h3>
+        
+        <h4>Escolha Bola de Neve se:</h4>
+        <ul>
+          <li>Você precisa de motivação constante</li>
+          <li>Tem muitas dívidas pequenas</li>
+          <li>Já tentou outros métodos sem sucesso</li>
+        </ul>
+
+        <h4>Escolha Avalanche se:</h4>
+        <ul>
+          <li>Você é disciplinado financeiramente</li>
+          <li>Quer economizar o máximo possível</li>
+          <li>Tem poucas dívidas com juros altos</li>
+        </ul>
+
+        <h3>🔧 Dicas Para Ambos os Métodos</h3>
+        <ul>
+          <li><strong>Negocie:</strong> Sempre tente renegociar condições</li>
+          <li><strong>Corte gastos:</strong> Temporariamente reduza despesas</li>
+          <li><strong>Renda extra:</strong> Considere trabalhos extras</li>
+          <li><strong>Não se endivide mais:</strong> Corte os cartões de crédito</li>
+        </ul>
       `
     },
     {
       id: 4,
-      title: "Aposentadoria aos 35: Sonho ou Realidade? Minha Experiência Real",
-      excerpt: "Como um desenvolvedor conseguiu se aposentar aos 35 anos com planejamento, disciplina e algumas estratégias não convencionais.",
-      category: "Aposentadoria",
+      title: "Reserva de Emergência: Quanto Guardar e Onde Investir",
+      excerpt: "Guia completo sobre reserva de emergência: valor ideal, melhores investimentos e como construir sua segurança financeira.",
+      category: "Planejamento",
       date: "25 de Dezembro, 2024",
-      author: "Pedro Costa",
-      readTime: "18 min",
-      image: "🏖️",
-      likes: 892,
-      comments: 203,
+      author: "Planejador Financeiro",
+      readTime: "9 min",
+      image: "🛡️",
+      likes: 321,
+      comments: 54,
       content: `
-        <p>Oi pessoal! Me chamo Pedro, tenho 37 anos e oficialmente me "aposentei" aos 35. Spoiler: não sou herdeiro nem ganhei na loteria. Sou (era) desenvolvedor e planejei isso por 12 anos.</p>
+        <h3>🛡️ O que é Reserva de Emergência?</h3>
+        <p>É um valor guardado para cobrir gastos imprevistos ou perda de renda, sem precisar se endividar ou vender investimentos no momento errado.</p>
 
-        <h3>🎯 Minha estratégia FIRE (Financial Independence, Retire Early)</h3>
-        <p>A ideia é simples: viver com muito menos do que ganha e investir a diferença até ter 25x seus gastos anuais investidos.</p>
-
-        <h4>Meus números:</h4>
+        <h3>💰 Quanto Guardar?</h3>
+        
+        <h4>Para CLT (funcionários):</h4>
         <ul>
-          <li>Gastos anuais: R$ 48.000 (R$ 4.000/mês)</li>
-          <li>Meta de investimentos: R$ 1.200.000</li>
-          <li>Tempo para atingir: 12 anos</li>
+          <li><strong>Mínimo:</strong> 3 meses de gastos essenciais</li>
+          <li><strong>Ideal:</strong> 6 meses de gastos totais</li>
+          <li><strong>Conservador:</strong> 12 meses</li>
         </ul>
 
-        <h3>💼 Como aumentei minha renda</h3>
+        <h4>Para autônomos/empresários:</h4>
+        <ul>
+          <li><strong>Mínimo:</strong> 6 meses de gastos</li>
+          <li><strong>Ideal:</strong> 12 meses</li>
+          <li><strong>Conservador:</strong> 18 meses</li>
+        </ul>
+
+        <h3>🏦 Onde Investir a Reserva?</h3>
+        
+        <h4>Características necessárias:</h4>
+        <ul>
+          <li>Liquidez diária</li>
+          <li>Baixo risco</li>
+          <li>Rentabilidade acima da poupança</li>
+        </ul>
+
+        <h4>Melhores opções:</h4>
+        <ul>
+          <li><strong>Tesouro Selic:</strong> Segurança máxima, liquidez diária</li>
+          <li><strong>CDB com liquidez diária:</strong> Rentabilidade superior</li>
+          <li><strong>Conta remunerada:</strong> Para valores menores</li>
+          <li><strong>Fundos DI:</strong> Diversificação automática</li>
+        </ul>
+
+        <h3>🔨 Como Construir Sua Reserva</h3>
+        
+        <h4>Passo a passo:</h4>
         <ol>
-          <li><strong>Carreira tech:</strong> Investi pesado em aprender programação</li>
-          <li><strong>Freelances:</strong> Trabalhava nos finais de semana</li>
-          <li><strong>Produtos digitais:</strong> Criei cursos online</li>
-          <li><strong>Renda passiva:</strong> Aluguéis e dividendos</li>
+          <li><strong>Calcule seus gastos mensais essenciais</strong></li>
+          <li><strong>Defina sua meta</strong> (3-12 meses)</li>
+          <li><strong>Estabeleça um valor mensal</strong> para guardar</li>
+          <li><strong>Automatize o processo</strong> com transferência automática</li>
+          <li><strong>Mantenha em investimento seguro</strong> e líquido</li>
         </ol>
 
-        <h3>✂️ Como cortei gastos (sem virar um eremita)</h3>
+        <h4>Estratégia acelerada:</h4>
         <ul>
-          <li>Morei com roommates até os 30</li>
-          <li>Carro usado e bem cuidado</li>
-          <li>Viagens com milhas e promoções</li>
-          <li>Cozinhava 90% das refeições</li>
-          <li>Mas: nunca deixei de me divertir!</li>
+          <li>Use 13º salário e férias</li>
+          <li>Inclua restituição do IR</li>
+          <li>Monetize itens não utilizados</li>
+          <li>Renda extra temporária</li>
         </ul>
 
-        <h3>📈 Minha carteira de investimentos</h3>
+        <h3>⚠️ Quando NÃO Usar a Reserva</h3>
         <ul>
-          <li>60% Ações (FIIs + individuais + fundos)</li>
-          <li>25% Renda fixa (Tesouro + CDBs)</li>
-          <li>10% Internacional (ETFs americanos)</li>
-          <li>5% Reserva de oportunidade</li>
+          <li>Compra de bens de consumo</li>
+          <li>Viagens de lazer</li>
+          <li>Investimentos especulativos</li>
+          <li>Pagamento de dívidas antigas</li>
         </ul>
 
-        <h3>🤔 Aposentadoria aos 35: vale a pena?</h3>
-        <p><strong>Prós:</strong></p>
+        <h3>✅ Quando Usar a Reserva</h3>
         <ul>
-          <li>Liberdade total de tempo</li>
-          <li>Zero estresse com chefe</li>
-          <li>Posso focar no que amo</li>
+          <li>Perda de emprego</li>
+          <li>Emergências médicas</li>
+          <li>Reparos urgentes (casa, carro)</li>
+          <li>Redução significativa de renda</li>
         </ul>
-
-        <p><strong>Contras:</strong></p>
-        <ul>
-          <li>Sacrifiquei muito dos 23 aos 35</li>
-          <li>Pressão social ("você não trabalha?")</li>
-          <li>Disciplina extrema necessária</li>
-        </ul>
-
-        <div class="bg-blue-50 p-4 rounded-lg mt-6">
-          <p><strong>🎯 Dica final:</strong> FIRE não é para todo mundo, mas os princípios sim: viver abaixo do que ganha, investir consistentemente e ter objetivos claros. Mesmo que não se aposente aos 35, você terá muito mais liberdade financeira! 💪</p>
-        </div>
-      `
-    },
-    {
-      id: 5,
-      title: "Meu Primeiro Ano Como MEI: Erros, Acertos e Quanto Realmente Lucrei",
-      excerpt: "A jornada honesta de quem saiu do CLT para abrir o próprio negócio. Spoiler: não foi só alegria, mas valeu a pena!",
-      category: "Empreendedorismo",
-      date: "20 de Dezembro, 2024",
-      author: "Carla Mendes",
-      readTime: "14 min",
-      image: "🚀",
-      likes: 656,
-      comments: 134,
-      content: `
-        <p>Oi, gente! Sou a Carla, tenho 31 anos e há um ano larguei meu emprego na área de marketing para virar MEI. Todo mundo me chamou de louca, mas... bom, vou contar como foi!</p>
-
-        <h3>💼 Por que saí do CLT</h3>
-        <p>Trabalhava numa empresa média, ganhava R$ 3.500 líquidos, mas estava infeliz. Sempre tive vontade de trabalhar por conta própria e a pandemia me fez repensar prioridades.</p>
-
-        <h3>📊 Meus números do primeiro ano</h3>
-        <div class="bg-gray-50 p-4 rounded-lg">
-          <h4>Faturamento mensal (média):</h4>
-          <ul>
-            <li>Jan-Mar: R$ 1.800 (quase desisti!)</li>
-            <li>Abr-Jun: R$ 2.800 (começou a decolar)</li>
-            <li>Jul-Set: R$ 4.200 (melhor fase)</li>
-            <li>Out-Dez: R$ 3.600 (estabilizou)</li>
-          </ul>
-          
-          <h4>Gastos mensais (média): R$ 800</h4>
-          <ul>
-            <li>DAS MEI: R$ 67</li>
-            <li>Contador: R$ 150</li>
-            <li>Ferramentas: R$ 200</li>
-            <li>Marketing: R$ 300</li>
-            <li>Outros: R$ 83</li>
-          </ul>
-        </div>
-
-        <h3>😅 Meus maiores erros</h3>
-        <ol>
-          <li><strong>Não separei pessoa física de jurídica:</strong> Bagunça total no começo</li>
-          <li><strong>Precifiquei errado:</strong> Cobrava muito barato</li>
-          <li><strong>Não tinha reserva:</strong> Os primeiros meses foram tensos</li>
-          <li><strong>Misturei amizade com negócios:</strong> Aprendi da pior forma</li>
-        </ol>
-
-        <h3>✅ O que deu super certo</h3>
-        <ul>
-          <li>Networking: 70% dos clientes vieram de indicação</li>
-          <li>Especialização: Foquei em redes sociais para dentistas</li>
-          <li>Organização: Planilhas salvaram minha vida</li>
-          <li>Capacitação: Investi em cursos todo mês</li>
-        </ul>
-
-        <h3>💰 Balanço financeiro real</h3>
-        <p><strong>Lucro líquido médio mensal:</strong> R$ 2.800</p>
-        <p>Parece menos que meu salário anterior, mas:</p>
-        <ul>
-          <li>Trabalho de casa (economizo transporte/almoço)</li>
-          <li>Flexibilidade total de horários</li>
-          <li>Potencial de crescimento muito maior</li>
-          <li>Satisfação pessoal que não tem preço</li>
-        </ul>
-
-        <h3>🎯 Planos para 2025</h3>
-        <ul>
-          <li>Meta: R$ 6.000/mês de faturamento</li>
-          <li>Contratar uma assistente</li>
-          <li>Lançar um curso online</li>
-          <li>Migrar para ME (se necessário)</li>
-        </ul>
-
-        <div class="bg-purple-50 p-4 rounded-lg mt-6">
-          <p><strong>💜 Para quem está pensando em empreender:</strong> É assustador, é difícil, mas é libertador. Se você tem uma reserva de 6 meses e muita determinação, vale a tentativa. Só não romantize - é trabalho pra caramba! 😄</p>
-        </div>
       `
     }
   ];
 
   const categories = [
-    { name: "História Real", icon: Heart, count: 8, color: "text-red-600" },
-    { name: "Reflexão", icon: Coffee, count: 6, color: "text-amber-600" },
-    { name: "Família", icon: User, count: 12, color: "text-green-600" },
-    { name: "Aposentadoria", icon: Target, count: 4, color: "text-blue-600" },
-    { name: "Empreendedorismo", icon: Briefcase, count: 10, color: "text-purple-600" },
-    { name: "Investimentos", icon: TrendingUp, count: 15, color: "text-indigo-600" },
-    { name: "Planejamento", icon: PiggyBank, count: 18, color: "text-emerald-600" },
-    { name: "Dívidas", icon: CreditCard, count: 9, color: "text-orange-600" }
+    { name: "Planejamento", icon: Target, count: 15, color: "text-blue-600" },
+    { name: "Investimentos", icon: TrendingUp, count: 12, color: "text-green-600" },
+    { name: "Dívidas", icon: CreditCard, count: 8, color: "text-red-600" },
+    { name: "Impostos", icon: Briefcase, count: 6, color: "text-purple-600" },
+    { name: "Aposentadoria", icon: PiggyBank, count: 10, color: "text-amber-600" },
+    { name: "Empreendedorismo", icon: Coffee, count: 7, color: "text-orange-600" }
   ];
 
   const [selectedPost, setSelectedPost] = React.useState<number | null>(null);
@@ -344,23 +310,23 @@ const BlogFinancas = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-              📚 Blog de Finanças Pessoais
+              📚 Blog de Educação Financeira
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Histórias reais, experiências autênticas e conselhos práticos de pessoas como você que estão transformando sua vida financeira
+              Conteúdo técnico e prático para organizar suas finanças pessoais, investir com segurança e alcançar seus objetivos financeiros
             </p>
             <div className="flex items-center justify-center gap-6 mt-6 text-sm text-gray-500">
               <div className="flex items-center gap-1">
-                <Heart className="h-4 w-4" />
-                <span>Histórias Reais</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Coffee className="h-4 w-4" />
-                <span>Experiências Autênticas</span>
-              </div>
-              <div className="flex items-center gap-1">
                 <Target className="h-4 w-4" />
-                <span>Dicas Práticas</span>
+                <span>Conteúdo Técnico</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <TrendingUp className="h-4 w-4" />
+                <span>Estratégias Práticas</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <PiggyBank className="h-4 w-4" />
+                <span>Resultados Reais</span>
               </div>
             </div>
           </div>
@@ -426,7 +392,7 @@ const BlogFinancas = () => {
                               onClick={() => setSelectedPost(selectedPost === post.id ? null : post.id)}
                               className="group"
                             >
-                              {selectedPost === post.id ? 'Fechar' : 'Ler História'}
+                              {selectedPost === post.id ? 'Fechar' : 'Ler Artigo'}
                               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                             </Button>
                           </div>
@@ -434,14 +400,6 @@ const BlogFinancas = () => {
                           {selectedPost === post.id && (
                             <div className="mt-6 pt-6 border-t prose prose-sm max-w-none">
                               <div dangerouslySetInnerHTML={{ __html: post.content }} />
-                              
-                              <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                                <h4 className="font-semibold text-blue-800 mb-2">💬 Conte sua história também!</h4>
-                                <p className="text-sm text-blue-700">
-                                  Tem uma experiência financeira para compartilhar? Entre em contato conosco! 
-                                  Adoramos histórias reais que podem inspirar outras pessoas.
-                                </p>
-                              </div>
                             </div>
                           )}
                         </div>
@@ -449,22 +407,6 @@ const BlogFinancas = () => {
                     </CardContent>
                   </Card>
                 ))}
-              </div>
-
-              <div className="mt-12 text-center">
-                <Card className="bg-gradient-to-r from-purple-50 to-blue-50">
-                  <CardContent className="p-8">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                      📝 Quer compartilhar sua história?
-                    </h3>
-                    <p className="text-gray-600 mb-6">
-                      Sua experiência pode inspirar milhares de pessoas! Contamos histórias reais de pessoas que transformaram suas finanças.
-                    </p>
-                    <Button className="bg-purple-600 hover:bg-purple-700">
-                      Enviar Minha História
-                    </Button>
-                  </CardContent>
-                </Card>
               </div>
             </div>
 
@@ -496,19 +438,22 @@ const BlogFinancas = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>💡 Dica da Semana</CardTitle>
+                  <CardTitle>🎯 Calculadoras Gratuitas</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-green-800 mb-2">Regra dos 5 Minutos</h4>
-                    <p className="text-sm text-green-700 mb-4">
-                      Antes de fazer qualquer compra acima de R$ 100, espere 5 minutos e se pergunte: 
-                      "Eu realmente preciso disso agora?" Funciona em 80% dos casos!
-                    </p>
+                  <div className="space-y-3">
+                    <Link to="/investimentos" className="block p-3 rounded-lg hover:bg-blue-50 transition-colors">
+                      <h4 className="font-semibold text-blue-800">Simulador de Investimentos</h4>
+                      <p className="text-sm text-blue-600">Calcule rendimentos de CDB, Tesouro e Poupança</p>
+                    </Link>
+                    <Link to="/planejamento-aposentadoria" className="block p-3 rounded-lg hover:bg-green-50 transition-colors">
+                      <h4 className="font-semibold text-green-800">Planejamento de Aposentadoria</h4>
+                      <p className="text-sm text-green-600">Descubra quanto precisa para se aposentar</p>
+                    </Link>
                   </div>
                   <Link to="/utilitarios-financeiros" className="mt-4 block">
                     <Button variant="outline" size="sm" className="w-full">
-                      Ver Calculadoras Gratuitas
+                      Ver Todas as Calculadoras
                     </Button>
                   </Link>
                 </CardContent>
@@ -516,20 +461,20 @@ const BlogFinancas = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>🔥 Mais Lidos da Semana</CardTitle>
+                  <CardTitle>📈 Mais Lidos</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="border-l-4 border-blue-500 pl-4">
-                    <h4 className="font-semibold text-sm text-gray-800">Como economizar R$ 500/mês no supermercado</h4>
-                    <p className="text-xs text-gray-600">Marina Santos • 15 min</p>
+                    <h4 className="font-semibold text-sm text-gray-800">Como declarar Tesouro Direto no IR</h4>
+                    <p className="text-xs text-gray-600">Guia Completo • 10 min</p>
                   </div>
                   <div className="border-l-4 border-green-500 pl-4">
-                    <h4 className="font-semibold text-sm text-gray-800">Meu primeiro milhão: história de um professor</h4>
-                    <p className="text-xs text-gray-600">João Silva • 20 min</p>
+                    <h4 className="font-semibold text-sm text-gray-800">CDB vs LCI: Qual rende mais?</h4>
+                    <p className="text-xs text-gray-600">Comparativo • 8 min</p>
                   </div>
                   <div className="border-l-4 border-purple-500 pl-4">
-                    <h4 className="font-semibold text-sm text-gray-800">Aposentadoria aos 40: é possível?</h4>
-                    <p className="text-xs text-gray-600">Ana Costa • 12 min</p>
+                    <h4 className="font-semibold text-sm text-gray-800">Fundos Imobiliários para iniciantes</h4>
+                    <p className="text-xs text-gray-600">Investimentos • 12 min</p>
                   </div>
                 </CardContent>
               </Card>
