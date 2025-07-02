@@ -125,6 +125,7 @@ const NinjaGame = () => {
   const loseLife = useCallback(() => {
     if (invulnerable || isFalling) return;
     
+    console.log('Ninja perdeu uma vida!');
     makeNinjaFall();
     
     setLives(prev => {
@@ -183,12 +184,13 @@ const NinjaGame = () => {
 
       // Spawn new money bags
       setMoneyBags(prev => {
-        if (Math.random() < 0.01 && (prev.length === 0 || prev[prev.length - 1].x < 500)) {
+        if (Math.random() < 0.015 && (prev.length === 0 || prev[prev.length - 1].x < 500)) {
           const newId = Date.now();
+          const isAirborne = Math.random() < 0.5;
           return [...prev, {
             id: newId,
             x: 800,
-            y: Math.random() < 0.5 ? GROUND_Y - 60 : GROUND_Y - 120,
+            y: isAirborne ? GROUND_Y - 80 : GROUND_Y - 30,
             width: 30,
             height: 30,
             collected: false
@@ -199,7 +201,7 @@ const NinjaGame = () => {
 
       // Spawn new obstacles
       setObstacles(prev => {
-        if (Math.random() < 0.008 && (prev.length === 0 || prev[prev.length - 1].x < 400)) {
+        if (Math.random() < 0.012 && (prev.length === 0 || prev[prev.length - 1].x < 300)) {
           const newId = Date.now();
           return [...prev, {
             id: newId,
@@ -237,26 +239,27 @@ const NinjaGame = () => {
 
     const collisionCheck = setInterval(() => {
       // Check money collection
-      setMoneyBags(prevMoney => {
-        return prevMoney.map(money => {
-          if (!money.collected && checkCollision(ninja, money)) {
-            setScore(s => s + 10);
-            return { ...money, collected: true };
-          }
-          return money;
-        });
+      moneyBags.forEach(money => {
+        if (!money.collected && checkCollision(ninja, money)) {
+          console.log('Ninja coletou dinheiro!');
+          setScore(s => s + 10);
+          setMoneyBags(prev => prev.map(m => 
+            m.id === money.id ? { ...m, collected: true } : m
+          ));
+        }
       });
 
       // Check obstacle collisions
       obstacles.forEach(obstacle => {
         if (!invulnerable && !isFalling && checkCollision(ninja, obstacle)) {
+          console.log('Ninja colidiu com obstáculo!');
           loseLife();
         }
       });
     }, 16);
 
     return () => clearInterval(collisionCheck);
-  }, [gameStarted, gameOver, ninja, obstacles, checkCollision, loseLife, invulnerable, isFalling]);
+  }, [gameStarted, gameOver, ninja, obstacles, moneyBags, checkCollision, loseLife, invulnerable, isFalling]);
 
   if (!gameStarted) {
     return (
@@ -316,7 +319,7 @@ const NinjaGame = () => {
           className={`absolute text-4xl transition-all duration-200 ${invulnerable ? 'animate-pulse opacity-50' : ''} ${isFalling ? 'animate-bounce' : ''}`}
           style={{
             left: ninja.x,
-            bottom: 280 - ninja.y - ninja.height,
+            top: 280 - ninja.y - ninja.height,
             width: ninja.width,
             height: ninja.height,
             transform: isJumping ? 'translateY(-10px) rotate(15deg)' : isFalling ? 'rotate(180deg)' : 'translateY(0) rotate(0deg)',
@@ -332,7 +335,7 @@ const NinjaGame = () => {
               className="absolute text-2xl animate-bounce"
               style={{
                 left: money.x,
-                bottom: 280 - money.y - money.height,
+                top: 280 - money.y - money.height,
                 width: money.width,
                 height: money.height
               }}
@@ -348,7 +351,7 @@ const NinjaGame = () => {
             className="absolute text-2xl"
             style={{
               left: obstacle.x,
-              bottom: 280 - obstacle.y - obstacle.height,
+              top: 280 - obstacle.y - obstacle.height,
               width: obstacle.width,
               height: obstacle.height
             }}
