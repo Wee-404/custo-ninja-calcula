@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
@@ -43,7 +42,6 @@ const Index = () => {
     { path: '/empreendedorismo-local', label: 'Empreendedorismo', icon: <Briefcase className="h-5 w-5" />, color: 'from-purple-500 to-pink-500' },
     { path: '/investimentos', label: 'Investimentos', icon: <PiggyBank className="h-5 w-5" />, color: 'from-green-500 to-emerald-500' },
     { path: '/planejamento-aposentadoria', label: 'Cálculo de Aposentadoria', icon: <Calculator className="h-5 w-5" />, color: 'from-indigo-500 to-purple-500' },
-    { path: '#newsletter', label: 'Newsletter', icon: <Coffee className="h-5 w-5" />, color: 'from-pink-500 to-rose-500' },
   ];
 
   const todasFerramentas = [
@@ -76,6 +74,13 @@ const Index = () => {
       color: 'from-gray-500 to-gray-600',
     },
   ];
+
+  const handleNewsletterClick = () => {
+    const newsletterSection = document.getElementById('newsletter');
+    if (newsletterSection) {
+      newsletterSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <Layout>
@@ -123,6 +128,19 @@ const Index = () => {
                 </h3>
               </Link>
             ))}
+            
+            {/* Newsletter Button */}
+            <button
+              onClick={handleNewsletterClick}
+              className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-4 text-center border-2 border-transparent hover:border-blue-200 transform hover:-translate-y-2"
+            >
+              <div className="bg-gradient-to-r from-pink-500 to-rose-500 rounded-lg p-3 w-fit mx-auto mb-3 text-white group-hover:scale-110 transition-transform duration-300">
+                <Coffee className="h-5 w-5" />
+              </div>
+              <h3 className="text-sm md:text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                Newsletter
+              </h3>
+            </button>
           </div>
         </div>
       </section>

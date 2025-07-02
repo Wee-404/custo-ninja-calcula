@@ -4,11 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Mail, CheckCircle } from 'lucide-react';
+import { Mail, CheckCircle, Phone } from 'lucide-react';
 
 const NewsletterSubscription = () => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [interests, setInterests] = useState<string[]>([]);
+  const [wantsOffers, setWantsOffers] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -27,39 +30,19 @@ const NewsletterSubscription = () => {
     }
   };
 
-  const getLocationInfo = () => {
-    return new Promise((resolve) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            resolve({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              accuracy: position.coords.accuracy
-            });
-          },
-          () => {
-            resolve({ location: 'Localização não disponível' });
-          }
-        );
-      } else {
-        resolve({ location: 'Geolocalização não suportada' });
-      }
-    });
-  };
-
   const sendEmailNotification = async (emailData: any) => {
     try {
-      // Simular envio de email (em produção, usar um serviço real)
       const response = await fetch('https://formsubmit.co/fence_brownnose511@passmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          name: emailData.name,
           email: emailData.email,
+          phone: emailData.phone || 'Não informado',
           interests: emailData.interests.join(', '),
-          location: JSON.stringify(emailData.location),
+          offers: emailData.wantsOffers ? 'Sim' : 'Não',
           timestamp: new Date().toISOString(),
           subject: 'Nova Inscrição Newsletter - Custo Ninja'
         })
@@ -74,17 +57,17 @@ const NewsletterSubscription = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || interests.length === 0) return;
+    if (!email || !name || interests.length === 0) return;
 
     setLoading(true);
     
     try {
-      const locationInfo = await getLocationInfo();
-      
       const emailData = {
+        name,
         email,
+        phone,
         interests,
-        location: locationInfo
+        wantsOffers
       };
 
       await sendEmailNotification(emailData);
@@ -106,7 +89,7 @@ const NewsletterSubscription = () => {
           <CheckCircle className="h-12 w-12 text-green-600 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-green-800 mb-2">Inscrição Confirmada!</h3>
           <p className="text-green-700">
-            Você receberá nossas atualizações em <strong>{email}</strong>
+            Obrigado <strong>{name}</strong>! Você receberá nossas atualizações em <strong>{email}</strong>
           </p>
         </CardContent>
       </Card>
@@ -124,15 +107,27 @@ const NewsletterSubscription = () => {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Input
-              type="email"
-              placeholder="seu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Input
+                type="text"
+                placeholder="Seu nome completo"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="w-full"
+              />
+            </div>
+            <div>
+              <Input
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full"
+              />
+            </div>
           </div>
 
           <div>
@@ -156,10 +151,40 @@ const NewsletterSubscription = () => {
             </div>
           </div>
 
+          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <div className="flex items-start space-x-3">
+              <Checkbox
+                id="offers"
+                checked={wantsOffers}
+                onCheckedChange={(checked) => setWantsOffers(checked as boolean)}
+              />
+              <div className="flex-1">
+                <label htmlFor="offers" className="font-medium cursor-pointer text-blue-800">
+                  🎁 Canal de Ofertas Exclusivas
+                </label>
+                <p className="text-sm text-blue-600 mb-3">
+                  Receba promoções e descontos especiais via WhatsApp
+                </p>
+                {wantsOffers && (
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-blue-600" />
+                    <Input
+                      type="tel"
+                      placeholder="(11) 99999-9999"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="flex-1"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           <Button 
             type="submit" 
             className="w-full" 
-            disabled={!email || interests.length === 0 || loading}
+            disabled={!email || !name || interests.length === 0 || loading}
           >
             {loading ? 'Inscrevendo...' : 'Inscrever-se Gratuitamente'}
           </Button>
