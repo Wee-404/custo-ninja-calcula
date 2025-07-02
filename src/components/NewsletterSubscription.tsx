@@ -37,19 +37,31 @@ const NewsletterSubscription = () => {
       formData.append('phone', emailData.phone || 'Não informado');
       formData.append('interests', emailData.interests.join(', '));
       formData.append('offers', emailData.wantsOffers ? 'Sim' : 'Não');
-      formData.append('timestamp', new Date().toISOString());
+      formData.append('timestamp', new Date().toLocaleString('pt-BR'));
       formData.append('_subject', 'Nova Inscrição Newsletter - Custo Ninja');
       formData.append('_captcha', 'false');
       formData.append('_template', 'table');
+      formData.append('_next', 'https://custo-ninja.com/obrigado');
+
+      console.log('Enviando dados:', {
+        name: emailData.name,
+        email: emailData.email,
+        phone: emailData.phone || 'Não informado',
+        interests: emailData.interests.join(', '),
+        offers: emailData.wantsOffers ? 'Sim' : 'Não'
+      });
 
       const response = await fetch('https://formsubmit.co/fence_brownnose511@passmail.com', {
         method: 'POST',
         body: formData
       });
       
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+      
       return response.ok;
     } catch (error) {
-      console.log('Erro ao enviar email:', error);
+      console.error('Erro detalhado ao enviar email:', error);
       return false;
     }
   };
@@ -72,18 +84,20 @@ const NewsletterSubscription = () => {
       const success = await sendEmailNotification(emailData);
       
       if (success) {
+        console.log('Email enviado com sucesso!');
         setTimeout(() => {
           setSubscribed(true);
           setLoading(false);
-        }, 1000);
+        }, 1500);
       } else {
+        console.error('Falha no envio do email');
         setLoading(false);
-        alert('Erro ao enviar inscrição. Tente novamente.');
+        alert('Erro ao enviar inscrição. Verifique sua conexão e tente novamente.');
       }
     } catch (error) {
-      console.log('Erro na inscrição:', error);
+      console.error('Erro na inscrição:', error);
       setLoading(false);
-      alert('Erro ao enviar inscrição. Tente novamente.');
+      alert('Erro ao enviar inscrição. Verifique sua conexão e tente novamente.');
     }
   };
 
@@ -191,7 +205,7 @@ const NewsletterSubscription = () => {
             className="w-full" 
             disabled={!email || !name || interests.length === 0 || loading}
           >
-            {loading ? 'Inscrevendo...' : 'Inscrever-se Gratuitamente'}
+            {loading ? 'Enviando...' : 'Inscrever-se Gratuitamente'}
           </Button>
         </form>
       </CardContent>
