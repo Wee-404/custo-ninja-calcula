@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -31,7 +30,7 @@ const NinjaGame = () => {
   const [lives, setLives] = useState(3);
   const [ninja, setNinja] = useState<GameObject>({
     x: 50,
-    y: 200,
+    y: 320, // Posição no chão (altura do container - altura do ninja)
     width: 40,
     height: 40
   });
@@ -44,8 +43,8 @@ const NinjaGame = () => {
   const [isFalling, setIsFalling] = useState(false);
   const [showCongratulations, setShowCongratulations] = useState(false);
 
-  const GROUND_Y = 200;
-  const JUMP_HEIGHT = 80;
+  const GROUND_Y = 320; // Altura do chão no sistema de coordenadas
+  const JUMP_HEIGHT = 100;
   const DOUBLE_JUMP_HEIGHT = 60;
   const GAME_SPEED = 2;
   const MAX_JUMPS = 2;
@@ -85,7 +84,7 @@ const NinjaGame = () => {
         setNinja(prev => ({ ...prev, y: GROUND_Y }));
         setIsJumping(false);
         setJumpCount(0);
-      }, 400);
+      }, 600);
     }
   }, [gameOver, gameStarted, jumpCount, isFalling]);
 
@@ -190,7 +189,7 @@ const NinjaGame = () => {
           return [...prev, {
             id: newId,
             x: 800,
-            y: isAirborne ? GROUND_Y - 80 : GROUND_Y - 30,
+            y: isAirborne ? GROUND_Y - 80 : GROUND_Y - 30, // Posições relativas ao chão
             width: 30,
             height: 30,
             collected: false
@@ -206,7 +205,7 @@ const NinjaGame = () => {
           return [...prev, {
             id: newId,
             x: 800,
-            y: GROUND_Y - 30,
+            y: GROUND_Y - 30, // No chão
             width: 30,
             height: 30
           }];
@@ -319,7 +318,7 @@ const NinjaGame = () => {
           className={`absolute text-4xl transition-all duration-200 ${invulnerable ? 'animate-pulse opacity-50' : ''} ${isFalling ? 'animate-bounce' : ''}`}
           style={{
             left: ninja.x,
-            top: 280 - ninja.y - ninja.height,
+            top: ninja.y,
             width: ninja.width,
             height: ninja.height,
             transform: isJumping ? 'translateY(-10px) rotate(15deg)' : isFalling ? 'rotate(180deg)' : 'translateY(0) rotate(0deg)',
@@ -335,7 +334,7 @@ const NinjaGame = () => {
               className="absolute text-2xl animate-bounce"
               style={{
                 left: money.x,
-                top: 280 - money.y - money.height,
+                top: money.y,
                 width: money.width,
                 height: money.height
               }}
@@ -351,7 +350,7 @@ const NinjaGame = () => {
             className="absolute text-2xl"
             style={{
               left: obstacle.x,
-              top: 280 - obstacle.y - obstacle.height,
+              top: obstacle.y,
               width: obstacle.width,
               height: obstacle.height
             }}
