@@ -1,10 +1,11 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import AdBanner from '../components/AdBanner';
 import CoursePromo from '../components/CoursePromo';
 import NinjaGame from '../components/NinjaGame';
-import { Calculator, TrendingUp, Users, Beer, PiggyBank, Car, DollarSign, GraduationCap, ArrowRight, CheckCircle, Target, Zap } from 'lucide-react';
+import { Calculator, TrendingUp, Users, Beer, PiggyBank, Car, DollarSign, GraduationCap, ArrowRight, CheckCircle, Target, Zap, BookOpen, Coffee, Briefcase } from 'lucide-react';
 
 const Index = () => {
   const ferramentasDestaque = [
@@ -32,6 +33,17 @@ const Index = () => {
       color: 'from-purple-500 to-purple-600',
       popular: true,
     },
+  ];
+
+  const menuRapidoItems = [
+    { path: '/blog-financas', label: 'Blog', icon: <BookOpen className="h-5 w-5" />, color: 'from-orange-500 to-red-500' },
+    { path: '/educacao-financeira', label: 'Diagnóstico Financeiro', icon: <Target className="h-5 w-5" />, color: 'from-emerald-500 to-green-500' },
+    { path: '/divisao-conta', label: 'Divisão de Contas', icon: <Users className="h-5 w-5" />, color: 'from-blue-500 to-indigo-500' },
+    { path: '/contador-cervejas', label: 'Contador de Cerveja', icon: <Beer className="h-5 w-5" />, color: 'from-amber-500 to-orange-500' },
+    { path: '/empreendedorismo-local', label: 'Empreendedorismo', icon: <Briefcase className="h-5 w-5" />, color: 'from-purple-500 to-pink-500' },
+    { path: '/investimentos', label: 'Investimentos', icon: <PiggyBank className="h-5 w-5" />, color: 'from-green-500 to-emerald-500' },
+    { path: '/planejamento-aposentadoria', label: 'Cálculo de Aposentadoria', icon: <Calculator className="h-5 w-5" />, color: 'from-indigo-500 to-purple-500' },
+    { path: '#newsletter', label: 'Newsletter', icon: <Coffee className="h-5 w-5" />, color: 'from-pink-500 to-rose-500' },
   ];
 
   const todasFerramentas = [
@@ -80,17 +92,42 @@ const Index = () => {
             <p className="text-lg mb-8 text-blue-200">
               Simplifique cálculos do dia a dia: custo-benefício, divisão de contas, investimentos e muito mais
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="#diagnostico"
-                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors inline-flex items-center gap-2"
-              >
-                Diagnóstico Gratuito <ArrowRight className="h-5 w-5" />
-              </a>
-            </div>
           </div>
         </div>
       </section>
+
+      {/* Menu Rápido */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+              ⚡ Menu Rápido
+            </h2>
+            <p className="text-xl text-gray-600">
+              Acesso direto às ferramentas mais procuradas
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            {menuRapidoItems.map((item, index) => (
+              <Link
+                key={index}
+                to={item.path}
+                className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-4 text-center border-2 border-transparent hover:border-blue-200 transform hover:-translate-y-2"
+              >
+                <div className={`bg-gradient-to-r ${item.color} rounded-lg p-3 w-fit mx-auto mb-3 text-white group-hover:scale-110 transition-transform duration-300`}>
+                  {item.icon}
+                </div>
+                <h3 className="text-sm md:text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                  {item.label}
+                </h3>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <AdBanner size="large" className="mx-4 my-8" />
 
       {/* Diagnóstico Financeiro */}
       <section className="py-20 bg-gradient-to-r from-emerald-50 to-blue-50" id="diagnostico">
