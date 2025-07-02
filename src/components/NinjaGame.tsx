@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -25,18 +24,22 @@ const NinjaGame = () => {
     height: 40
   });
   const [isJumping, setIsJumping] = useState(false);
+  const [jumpCount, setJumpCount] = useState(0);
   const [moneyBags, setMoneyBags] = useState<Money[]>([]);
   const [obstacles, setObstacles] = useState<GameObject[]>([]);
 
   const GROUND_Y = 200;
   const JUMP_HEIGHT = 80;
+  const DOUBLE_JUMP_HEIGHT = 60;
   const GAME_SPEED = 2;
+  const MAX_JUMPS = 2;
 
   const resetGame = useCallback(() => {
     setGameOver(false);
     setScore(0);
     setNinja({ x: 50, y: GROUND_Y, width: 40, height: 40 });
     setIsJumping(false);
+    setJumpCount(0);
     setMoneyBags([]);
     setObstacles([]);
   }, []);
@@ -47,16 +50,31 @@ const NinjaGame = () => {
   }, [resetGame]);
 
   const jump = useCallback(() => {
-    if (!isJumping && !gameOver && gameStarted) {
+    if (!gameOver && gameStarted && jumpCount < MAX_JUMPS) {
       setIsJumping(true);
-      setNinja(prev => ({ ...prev, y: GROUND_Y - JUMP_HEIGHT }));
+      const newJumpCount = jumpCount + 1;
+      setJumpCount(newJumpCount);
+      
+      const jumpHeight = newJumpCount === 1 ? JUMP_HEIGHT : DOUBLE_JUMP_HEIGHT;
+      const targetY = newJumpCount === 1 ? GROUND_Y - JUMP_HEIGHT : GROUND_Y - JUMP_HEIGHT - DOUBLE_JUMP_HEIGHT;
+      
+      setNinja(prev => ({ ...prev, y: targetY }));
       
       setTimeout(() => {
         setNinja(prev => ({ ...prev, y: GROUND_Y }));
         setIsJumping(false);
+        setJumpCount(0);
       }, 600);
     }
-  }, [isJumping, gameOver, gameStarted]);
+  }, [gameOver, gameStarted, jumpCount]);
+
+  const handleGameClick = useCallback(() => {
+    if (!gameStarted) {
+      startGame();
+    } else {
+      jump();
+    }
+  }, [gameStarted, startGame, jump]);
 
   const checkCollision = useCallback((obj1: GameObject, obj2: GameObject) => {
     return obj1.x < obj2.x + obj2.width &&
@@ -69,17 +87,13 @@ const NinjaGame = () => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.code === 'Space' || e.code === 'ArrowUp') {
         e.preventDefault();
-        if (!gameStarted) {
-          startGame();
-        } else {
-          jump();
-        }
+        handleGameClick();
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [gameStarted, jump, startGame]);
+  }, [handleGameClick]);
 
   useEffect(() => {
     if (!gameStarted || gameOver) return;
@@ -129,7 +143,6 @@ const NinjaGame = () => {
     return () => clearInterval(gameLoop);
   }, [gameStarted, gameOver]);
 
-  // Separate effect for collision detection
   useEffect(() => {
     if (!gameStarted || gameOver) return;
 
@@ -156,10 +169,10 @@ const NinjaGame = () => {
 
   if (!gameStarted) {
     return (
-      <Card className="w-full max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+      <Card className="w-full max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-blue-600 text-white cursor-pointer" onClick={handleGameClick}>
         <CardContent className="p-8 text-center">
           <h3 className="text-2xl font-bold mb-4">🥷 Ninja do Dinheiro</h3>
-          <p className="mb-6">Ajude o ninja a coletar sacos de dinheiro! Use ESPAÇO ou ↑ para pular.</p>
+          <p className="mb-6">Ajude o ninja a coletar sacos de dinheiro! Use ESPAÇO, ↑ ou clique/toque para pular. Duplo clique para duplo salto!</p>
           <Button onClick={startGame} size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
             Começar Jogo
           </Button>
@@ -169,17 +182,18 @@ const NinjaGame = () => {
   }
 
   return (
-    <Card className="w-full max-w-4xl mx-auto bg-gradient-to-b from-sky-300 to-green-300 relative overflow-hidden">
+    <Card className="w-full max-w-4xl mx-auto bg-gradient-to-b from-sky-300 to-green-300 relative overflow-hidden cursor-pointer" onClick={handleGameClick}>
       <CardContent className="p-0 h-80 relative">
-        {/* Score */}
         <div className="absolute top-4 right-4 text-2xl font-bold text-white z-10 bg-black bg-opacity-50 px-3 py-1 rounded">
           💰 {score}
         </div>
 
-        {/* Ground */}
+        <div className="absolute top-4 left-4 text-sm text-white bg-black bg-opacity-50 px-2 py-1 rounded">
+          Saltos: {jumpCount}/{MAX_JUMPS}
+        </div>
+
         <div className="absolute bottom-0 w-full h-20 bg-gradient-to-t from-green-600 to-green-400"></div>
 
-        {/* Ninja */}
         <div
           className="absolute text-4xl transition-all duration-300"
           style={{
@@ -187,13 +201,12 @@ const NinjaGame = () => {
             bottom: 280 - ninja.y - ninja.height,
             width: ninja.width,
             height: ninja.height,
-            transform: isJumping ? 'translateY(-10px)' : 'translateY(0)',
+            transform: isJumping ? 'translateY(-10px) rotate(15deg)' : 'translateY(0) rotate(0deg)',
           }}
         >
           🥷
         </div>
 
-        {/* Money Bags */}
         {moneyBags.map((money, index) => (
           !money.collected && (
             <div
@@ -211,7 +224,6 @@ const NinjaGame = () => {
           )
         ))}
 
-        {/* Obstacles */}
         {obstacles.map((obstacle, index) => (
           <div
             key={index}
@@ -227,7 +239,6 @@ const NinjaGame = () => {
           </div>
         ))}
 
-        {/* Game Over */}
         {gameOver && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20">
             <div className="bg-white p-8 rounded-lg text-center">
@@ -240,9 +251,8 @@ const NinjaGame = () => {
           </div>
         )}
 
-        {/* Instructions */}
-        <div className="absolute bottom-4 left-4 text-white text-sm bg-black bg-opacity-50 px-2 py-1 rounded">
-          Pressione ESPAÇO ou ↑ para pular
+        <div className="absolute bottom-4 left-4 text-white text-xs bg-black bg-opacity-50 px-2 py-1 rounded">
+          ESPAÇO/↑/CLIQUE: pular | DUPLO CLIQUE: duplo salto
         </div>
       </CardContent>
     </Card>
