@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
@@ -84,17 +85,17 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
+      {/* Hero Section - Reduced height */}
       <section className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white">
-        <div className="container mx-auto px-4 py-16">
+        <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">
               🥷 Custo Ninja
             </h1>
-            <p className="text-xl md:text-2xl mb-6 text-blue-100">
+            <p className="text-lg md:text-xl mb-4 text-blue-100">
               Ferramentas financeiras gratuitas para decisões inteligentes
             </p>
-            <p className="text-lg mb-8 text-blue-200">
+            <p className="text-base mb-6 text-blue-200">
               Simplifique cálculos do dia a dia: custo-benefício, divisão de contas, investimentos e muito mais
             </p>
           </div>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -32,20 +31,20 @@ const NewsletterSubscription = () => {
 
   const sendEmailNotification = async (emailData: any) => {
     try {
+      const formData = new FormData();
+      formData.append('name', emailData.name);
+      formData.append('email', emailData.email);
+      formData.append('phone', emailData.phone || 'Não informado');
+      formData.append('interests', emailData.interests.join(', '));
+      formData.append('offers', emailData.wantsOffers ? 'Sim' : 'Não');
+      formData.append('timestamp', new Date().toISOString());
+      formData.append('_subject', 'Nova Inscrição Newsletter - Custo Ninja');
+      formData.append('_captcha', 'false');
+      formData.append('_template', 'table');
+
       const response = await fetch('https://formsubmit.co/fence_brownnose511@passmail.com', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: emailData.name,
-          email: emailData.email,
-          phone: emailData.phone || 'Não informado',
-          interests: emailData.interests.join(', '),
-          offers: emailData.wantsOffers ? 'Sim' : 'Não',
-          timestamp: new Date().toISOString(),
-          subject: 'Nova Inscrição Newsletter - Custo Ninja'
-        })
+        body: formData
       });
       
       return response.ok;
@@ -70,15 +69,21 @@ const NewsletterSubscription = () => {
         wantsOffers
       };
 
-      await sendEmailNotification(emailData);
+      const success = await sendEmailNotification(emailData);
       
-      setTimeout(() => {
-        setSubscribed(true);
+      if (success) {
+        setTimeout(() => {
+          setSubscribed(true);
+          setLoading(false);
+        }, 1000);
+      } else {
         setLoading(false);
-      }, 1000);
+        alert('Erro ao enviar inscrição. Tente novamente.');
+      }
     } catch (error) {
       console.log('Erro na inscrição:', error);
       setLoading(false);
+      alert('Erro ao enviar inscrição. Tente novamente.');
     }
   };
 
