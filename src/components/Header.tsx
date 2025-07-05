@@ -17,6 +17,7 @@ const Header = () => {
     { path: '/blog-financas', label: 'Blog' },
     { path: '/educacao-financeira', label: 'Educação Financeira' },
     { path: '/empreendedorismo-local', label: 'Empreendedorismo' },
+    { path: '/ads-e-cursos', label: 'Ads & Cursos', admin: true },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -39,7 +40,9 @@ const Header = () => {
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   isActive(item.path)
                     ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                    : item.admin 
+                      ? 'text-orange-600 hover:text-orange-700 hover:bg-orange-50 border border-orange-200'
+                      : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
                 }`}
               >
                 {item.label}
@@ -66,7 +69,9 @@ const Header = () => {
                 className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
                   isActive(item.path)
                     ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                    : item.admin 
+                      ? 'text-orange-600 hover:text-orange-700 hover:bg-orange-50 border border-orange-200'
+                      : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
