@@ -19,6 +19,7 @@ import UtilitariosFinanceiros from "./pages/UtilitariosFinanceiros";
 import BlogFinancas from "./pages/BlogFinancas";
 import AdsECursos from "./pages/AdsECursos";
 import NotFound from "./pages/NotFound";
+import CalculadoraGorjeta from "./pages/CalculadoraGorjeta";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const AppWrapper = () => {
       <Route path="/utilitarios-financeiros" element={<UtilitariosFinanceiros />} />
       <Route path="/blog-financas" element={<BlogFinancas />} />
       <Route path="/ads-e-cursos" element={<AdsECursos />} />
+      <Route path="/calculadora-gorjeta" element={<CalculadoraGorjeta />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

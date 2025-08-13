@@ -43,6 +43,7 @@ const Index = () => {
     { path: '/empreendedorismo-local', label: 'Empreendedorismo', icon: <Briefcase className="h-5 w-5" />, color: 'from-purple-500 to-pink-500' },
     { path: '/investimentos', label: 'Investimentos', icon: <PiggyBank className="h-5 w-5" />, color: 'from-green-500 to-emerald-500' },
     { path: '/planejamento-aposentadoria', label: 'Cálculo de Aposentadoria', icon: <Calculator className="h-5 w-5" />, color: 'from-indigo-500 to-purple-500' },
+    { path: '/calculadora-gorjeta', label: 'Calculadora de Gorjeta', icon: <Coffee className="h-5 w-5" />, color: 'from-orange-500 to-amber-500' },
   ];
 
   const todasFerramentas = [
@@ -73,6 +74,13 @@ const Index = () => {
       icon: <Calculator className="h-6 w-6" />,
       path: '/calculadora-basica',
       color: 'from-gray-500 to-gray-600',
+    },
+    {
+      title: 'Calculadora de Gorjeta',
+      description: 'Calcule gorjetas e divida o valor por pessoa',
+      icon: <Coffee className="h-6 w-6" />,
+      path: '/calculadora-gorjeta',
+      color: 'from-orange-500 to-amber-600',
     },
   ];
 
