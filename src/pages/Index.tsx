@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
-import AdBanner from '../components/AdBanner';
+import GoogleAdSense from '../components/GoogleAdSense';
 import CoursePromo from '../components/CoursePromo';
 import NinjaGame from '../components/NinjaGame';
 import { Calculator, TrendingUp, Users, Beer, PiggyBank, Car, DollarSign, GraduationCap, ArrowRight, CheckCircle, Target, Zap, BookOpen, Coffee, Briefcase } from 'lucide-react';
@@ -146,7 +146,11 @@ const Index = () => {
         </div>
       </section>
 
-      <AdBanner size="large" className="mx-4 my-8" />
+      <GoogleAdSense 
+        adSlot="1234567890"
+        adFormat="auto"
+        style={{ display: 'block', margin: '32px 16px' }}
+      />
 
       {/* Diagnóstico Financeiro */}
       <section className="py-20 bg-gradient-to-r from-emerald-50 to-blue-50" id="diagnostico">
@@ -244,7 +248,11 @@ const Index = () => {
         </div>
       </section>
 
-      <AdBanner size="large" className="mx-4 my-8" />
+      <GoogleAdSense 
+        adSlot="2345678901"
+        adFormat="auto"
+        style={{ display: 'block', margin: '32px 16px' }}
+      />
 
       {/* Mini Game Section */}
       <section className="py-16 bg-gradient-to-br from-purple-50 to-blue-50">
@@ -344,7 +352,11 @@ const Index = () => {
         </div>
       </section>
 
-      <AdBanner size="medium" className="mx-4 mb-8" />
+      <GoogleAdSense 
+        adSlot="3456789012"
+        adFormat="auto"
+        style={{ display: 'block', margin: '0 16px 32px 16px' }}
+      />
     </Layout>
   );
 };
