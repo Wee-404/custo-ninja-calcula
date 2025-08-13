@@ -9,6 +9,9 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    fs: {
+      strict: false
+    }
   },
   plugins: [
     react(),
@@ -40,6 +43,14 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
+      },
+      output: {
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'ads.txt') {
+            return 'ads.txt'
+          }
+          return 'assets/[name]-[hash][extname]'
+        }
       }
     }
   },
