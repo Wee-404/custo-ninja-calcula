@@ -7,7 +7,7 @@ import NewsletterSubscription from '../components/NewsletterSubscription';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Calculator, PiggyBank, TrendingUp, Users, Beer, GraduationCap, Car, DollarSign } from 'lucide-react';
+import { Calculator, PiggyBank, TrendingUp, Users, Beer, GraduationCap, Car, DollarSign, Coffee } from 'lucide-react';
 
 const UtilitariosFinanceiros = () => {
   const ferramentas = [
@@ -74,6 +74,14 @@ const UtilitariosFinanceiros = () => {
       icon: Beer,
       cor: 'bg-amber-50 text-amber-600 border-amber-200',
       categoria: 'Diversão'
+    },
+    {
+      titulo: 'Calculadora de Gorjeta',
+      descricao: 'Calcule a gorjeta e o total por pessoa',
+      link: '/calculadora-gorjeta',
+      icon: Coffee,
+      cor: 'bg-orange-50 text-orange-600 border-orange-200',
+      categoria: 'Utilidade'
     },
     {
       titulo: 'Calculadora Básica',
