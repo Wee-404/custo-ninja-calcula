@@ -50,7 +50,7 @@ export default GoogleAdSense;
 // Componentes pré-configurados para diferentes tipos de anúncios
 export const AdSenseHeader = () => (
   <GoogleAdSense 
-    adSlot="1234567890" // Substitua pelo seu ad slot
+    adSlot="1314339404841635"
     adFormat="horizontal"
     className="my-4"
     style={{ display: 'block', textAlign: 'center', minHeight: '90px' }}
@@ -59,7 +59,7 @@ export const AdSenseHeader = () => (
 
 export const AdSenseSidebar = () => (
   <GoogleAdSense 
-    adSlot="0987654321" // Substitua pelo seu ad slot
+    adSlot="1314339404841635"
     adFormat="vertical"
     className="my-4"
     style={{ display: 'block', width: '300px', minHeight: '250px' }}
@@ -68,7 +68,7 @@ export const AdSenseSidebar = () => (
 
 export const AdSenseFooter = () => (
   <GoogleAdSense 
-    adSlot="1357924680" // Substitua pelo seu ad slot
+    adSlot="1314339404841635"
     adFormat="horizontal"
     className="my-4"
     style={{ display: 'block', textAlign: 'center', minHeight: '90px' }}
@@ -77,7 +77,7 @@ export const AdSenseFooter = () => (
 
 export const AdSenseInContent = () => (
   <GoogleAdSense 
-    adSlot="2468013579" // Substitua pelo seu ad slot
+    adSlot="1314339404841635"
     adFormat="rectangle"
     className="my-6 mx-auto"
     style={{ display: 'block', textAlign: 'center', minHeight: '280px' }}
