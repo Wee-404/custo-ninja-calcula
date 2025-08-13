@@ -1,8 +1,7 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import AdBanner from '../components/AdBanner';
-import CoursePromo from '../components/CoursePromo';
 import GoogleAdSense, { AdSenseHeader, AdSenseSidebar, AdSenseFooter, AdSenseInContent } from '../components/GoogleAdSense';
+import CoursePromo from '../components/CoursePromo';
 import { Settings, BookOpen, Megaphone } from 'lucide-react';
 
 const AdsECursos = () => {
@@ -65,17 +64,29 @@ const AdsECursos = () => {
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-semibold mb-2">Banner Pequeno</h4>
-                    <AdBanner size="small" />
+                    <GoogleAdSense 
+                      adSlot="1234567890"
+                      adFormat="rectangle"
+                      style={{ display: 'block', minHeight: '90px' }}
+                    />
                   </div>
                   
                   <div>
                     <h4 className="font-semibold mb-2">Banner Médio</h4>
-                    <AdBanner size="medium" />
+                    <GoogleAdSense 
+                      adSlot="2345678901"
+                      adFormat="rectangle"
+                      style={{ display: 'block', minHeight: '120px' }}
+                    />
                   </div>
                   
                   <div>
                     <h4 className="font-semibold mb-2">Banner Grande</h4>
-                    <AdBanner size="large" />
+                    <GoogleAdSense 
+                      adSlot="3456789012"
+                      adFormat="auto"
+                      style={{ display: 'block', minHeight: '180px' }}
+                    />
                   </div>
                 </div>
               </div>

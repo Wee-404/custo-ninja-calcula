@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
-import AdBanner from '../components/AdBanner';
+import GoogleAdSense from '../components/GoogleAdSense';
 import CoursePromo from '../components/CoursePromo';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -161,7 +161,11 @@ const PrecificacaoServicos = () => {
             </p>
           </div>
 
-          <AdBanner size="large" className="mb-8" />
+          <GoogleAdSense 
+            adSlot="1234567890"
+            adFormat="auto"
+            style={{ display: 'block', margin: '32px 0' }}
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
@@ -324,7 +328,11 @@ const PrecificacaoServicos = () => {
 
             <div className="space-y-6">
               <CoursePromo />
-              <AdBanner size="medium" />
+              <GoogleAdSense 
+                adSlot="2345678901"
+                adFormat="rectangle"
+                style={{ display: 'block' }}
+              />
               
               <Card>
                 <CardHeader>

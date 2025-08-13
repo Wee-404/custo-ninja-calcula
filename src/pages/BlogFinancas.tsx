@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Layout from '../components/Layout';
-import AdBanner from '../components/AdBanner';
+import GoogleAdSense from '../components/GoogleAdSense';
 import CoursePromo from '../components/CoursePromo';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -331,7 +331,11 @@ const BlogFinancas = () => {
             </div>
           </div>
 
-          <AdBanner size="large" className="mb-12" />
+          <GoogleAdSense 
+            adSlot="1234567890"
+            adFormat="auto"
+            style={{ display: 'block', margin: '48px 0' }}
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <div className="lg:col-span-3">
@@ -434,7 +438,11 @@ const BlogFinancas = () => {
                 </CardContent>
               </Card>
 
-              <AdBanner size="medium" />
+              <GoogleAdSense 
+                adSlot="2345678901"
+                adFormat="rectangle"
+                style={{ display: 'block' }}
+              />
 
               <Card>
                 <CardHeader>
